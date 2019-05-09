@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LoginWindowController">
+   <children>
+      <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="357.0" layoutX="21.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" width="562.0" />
+      <ImageView fx:id="imageLogo" fitHeight="238.0" fitWidth="245.0" layoutX="30.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@UOW%20Logo.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="usernameField" layoutX="275.0" layoutY="140.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Username">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <PasswordField fx:id="passwordField" layoutX="275.0" layoutY="200.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Password">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </PasswordField>
+      <Button fx:id="loginButton" layoutX="356.0" layoutY="255.0" mnemonicParsing="false" onAction="#performLogin" prefHeight="39.0" prefWidth="84.0" text="Login">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Label fx:id="titleLabel" layoutX="183.0" layoutY="44.0" text="Event Login" textFill="WHITE">
+         <font>
+            <Font name="Times New Roman" size="48.0" />
+         </font>
+      </Label>
+      <Button fx:id="quitButton" layoutX="478.0" layoutY="324.0" mnemonicParsing="false" onAction="#exitProgram" prefHeight="39.0" prefWidth="84.0" text="Quit">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="profileButton" layoutX="460.0" layoutY="44.0" mnemonicParsing="false" onAction="#createProfile" prefHeight="33.0" prefWidth="102.0" text="Create Profile" />
+   </children>
+</Pane>
