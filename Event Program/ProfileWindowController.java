@@ -10,6 +10,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javafx.fxml.LoadException;
@@ -59,64 +61,95 @@ public class ProfileWindowController {
 
     @FXML
     void createProfile(ActionEvent event) {
-        // Set up Error Handler
+
         Alert alert;
 
-        // Get Data
+        // Retrieve user input
         String inputUsername = usernameField.getText();
         String inputPassword = String.valueOf(passwordField.getText());
         String inputFullname = fullnameField.getText();
         String inputDateOfBirth = dateofbirthField.getText();
 
-        if (inputUsername.equals("") || inputPassword.equals("") || inputFullname.equals("") || inputDateOfBirth.equals("")) {
-            alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Input Error");
+        // Validate the input
+        String errorString = validateInput(inputUsername, inputPassword, inputFullname, inputDateOfBirth);
+
+        if (errorString.isEmpty()) {
+            // Input is all good
+
+            // Split date string into integers
+            int[] dateParts = getDateParts(inputDateOfBirth);
+            // Create the account
+            EventManager.createUser(inputUsername, inputPassword, inputFullname, dateParts[0], dateParts[1],
+                    dateParts[2]);
+
+            // Party time
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Success");
             alert.setHeaderText(null);
-            alert.setContentText("Please Fill All Relevant Fields");
-        
+            alert.setContentText("Account was successfully created");
             alert.showAndWait();
+
+            // TO DO
+            // close the account creation window
+
         } else {
-             if (manager.getAccount(inputUsername) != null) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Login Error");
-                alert.setHeaderText(null);
-                alert.setContentText("This Account already exists");
-                
-                alert.showAndWait();
-            } else {
-                // Check Date
-                int count = inputDateOfBirth.length() - inputDateOfBirth.replace("/", "").length();
-                if (count != 2) {
-                    alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Input Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Date given is incorrectly formatted. Please do the following: dd/mm/yyyy");
-                    
-                    alert.showAndWait();
-                } else {
-                    // Get Date
-                    String[] dateComponents = inputDateOfBirth.split("/");
-                    int day = Integer.parseInt(dateComponents[0]);
-                    int month = Integer.parseInt(dateComponents[1]);
-                    int year = Integer.parseInt(dateComponents[2]);
+            // Input is invalid
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText(errorString);
+            alert.showAndWait();
+        }
 
-                    // Create Account
-                    alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Account Creation Successful");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Account was successfully created");
+    }
 
-                    alert.showAndWait();
+    private static String validateInput(String username, String password, String fullname, String dob) {
+        /*
+         * This method receives the four input strings specific to the signup form and
+         * returns an error message if any of those strings are invalid. If there are no
+         * errors an empty string is returned
+         */
 
-                    manager.createUser(inputUsername, inputPassword, inputFullname, day, month, year);
-                    
-                    // Clear details
-                    usernameField.setText("");
-                    passwordField.setText("");
-                    fullnameField.setText("");
-                    dateofbirthField.setText("");
-                }
+        // Check if all fields are populated
+        if (username.isEmpty() || password.isEmpty() || fullname.isEmpty() || dob.isEmpty()) {
+            return "Please enter every field";
+        }
+
+        // Check if the date is valid
+        try {
+            // Parse date string
+            int[] datePart = getDateParts(dob);
+            // Attempt to create a date object
+            LocalDate date = LocalDate.of(datePart[2], datePart[1], datePart[0]);
+            // Check if its before current date
+            if (!date.isBefore(LocalDate.now())) {
+                throw new Exception();
             }
+        } catch (Exception e) {
+            return "Please enter a valid date (dd/mm/yyyy)";
+        }
+
+        // Check if the username already exists
+        if (EventManager.getAccount(username) != null) {
+            return "That username is already taken";
+        }
+
+        return "";
+    }
+
+    private static int[] getDateParts(String dateString) {
+        /*
+         * This method takes a string representing a date and returns an integer array
+         * of length 3 representing the day, month and year
+         */
+        String[] dateParts = dateString.split("/");
+        try {
+            int day = Integer.parseInt(dateParts[0]);
+            int month = Integer.parseInt(dateParts[1]);
+            int year = Integer.parseInt(dateParts[2]);
+            return new int[] { day, month, year };
+        } catch (Exception e) {
+            throw e;
         }
     }
 }
