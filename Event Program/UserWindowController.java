@@ -8,22 +8,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.shape.Rectangle;
-import java.util.Optional;
-
-import javafx.fxml.LoadException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.Node;
+// import java.util.Optional;
 
 import java.time.LocalDate;
 
-import java.io.IOException;
-
-public class UserWindowController {
-
-    EventManager manager;
+public class UserWindowController extends WindowController {
+	EventManager manager;
 
     @FXML
     private Rectangle rectBackground;
@@ -51,69 +41,41 @@ public class UserWindowController {
 
     @FXML
     private Button profileButton;
-    
+
     @FXML
     void createEvent(ActionEvent event) {
-        createWindow("EventCreate");
+    	// Open window to create events
+        openWindow("FXML Files/EventCreateWindow.fxml", "Create Events and Sessions");
     }
 
     @FXML
     void manageEvents(ActionEvent event) {
-        //createWindow("ManageEvent");
+    	// Open window to manage events
+    	// openWindow("FXML Files/EventManageWindow.fxml", "Manage Events");
     }
 
     @FXML
     void bookEvent(ActionEvent event) {
-        createWindow("EventSearch");
+    	// Open window to book events
+    	openWindow("FXML Files/EventSearchWindow.fxml", "Search Events");
     }
 
     @FXML
     void manageProfile(ActionEvent event) {
-        //createWindow("ManageProfile")
+    	// Open window to manage profile
+    	// openWindow("FXML Files/ManageProfileWindow.fxml, "Manage Profile");
     }
 
     @FXML
     void exitWindow(ActionEvent event) {
-        // Close current stage
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+       	// Close Current Window
+    	closeWindow(event);
 
-        // Perform logout
-        manager.performLogout();
+    	// Perform Logout
+    	manager.performLogout();
 
-        // Create Login Window
-        createWindow("Login");
-    }
-
-    public void createWindow(String type) {
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXML Files/" + type + "Window.fxml"));
-            Scene scene = new Scene(root);
-            stage.setTitle(type);
-            stage.setScene(scene);
-            stage.show();
-
-            if (type.equals("Login")) {
-                stage.setOnCloseRequest(e -> {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Exit Program");
-                alert.setHeaderText(null);
-                alert.setContentText("Exit the Program?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    System.exit(0);
-                } else {
-                    e.consume();
-                }
-            });
-            }         
-        } catch (IOException e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
+    	// Open Login Window
+    	openWindow("FXML Files/LoginWindow.fxml", "Login");
     }
     public void initialize() {
         // Set Date of DateField
