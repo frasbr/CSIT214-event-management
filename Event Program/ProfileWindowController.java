@@ -21,7 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ProfileWindowController {
+public class ProfileWindowController extends WindowController {
 
     EventManager manager;
 
@@ -54,17 +54,13 @@ public class ProfileWindowController {
 
     @FXML
     void exitWindow(ActionEvent event) {
-        Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        // Close Window
+        closeWindow(event);
     }
 
     @FXML
     void createProfile(ActionEvent event) {
-
-        Alert alert;
-
-        // Retrieve user input
+         // Retrieve user input
         String inputUsername = usernameField.getText();
         String inputPassword = String.valueOf(passwordField.getText());
         String inputFullname = fullnameField.getText();
@@ -78,31 +74,20 @@ public class ProfileWindowController {
 
             // Split date string into integers
             int[] dateParts = getDateParts(inputDateOfBirth);
+
             // Create the account
-            EventManager.createUser(inputUsername, inputPassword, inputFullname, dateParts[0], dateParts[1],
-                    dateParts[2]);
+            EventManager.createUser(inputUsername, inputPassword, inputFullname, dateParts[0], dateParts[1], dateParts[2]);
 
             // Party time
-            alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText(null);
-            alert.setContentText("Account was successfully created");
-            alert.showAndWait();
+            createMessage("Account Created", "Account was successfully created", AlertType.CONFIRMATION);
 
-            // TO DO
             // close the account creation window
-
+            exitWindow(event);
         } else {
             // Input is invalid
-            alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText(null);
-            alert.setContentText(errorString);
-            alert.showAndWait();
+            createMessage("Error", errorString, AlertType.ERROR);
         }
-
     }
-
     private static String validateInput(String username, String password, String fullname, String dob) {
         /*
          * This method receives the four input strings specific to the signup form and
@@ -119,8 +104,10 @@ public class ProfileWindowController {
         try {
             // Parse date string
             int[] datePart = getDateParts(dob);
+
             // Attempt to create a date object
             LocalDate date = LocalDate.of(datePart[2], datePart[1], datePart[0]);
+            
             // Check if its before current date
             if (!date.isBefore(LocalDate.now())) {
                 throw new Exception();

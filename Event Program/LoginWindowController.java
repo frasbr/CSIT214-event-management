@@ -6,24 +6,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.ButtonType;
+import javafx.scene.shape.Rectangle;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.shape.Rectangle;
-import java.util.Optional;
 
-import javafx.fxml.LoadException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.Node;
-
-import java.io.IOException;
-
-public class LoginWindowController {
-
-    public EventManager manager;
+public class LoginWindowController extends WindowController {
+	EventManager manager;
 
     @FXML
     private TextField usernameField;
@@ -51,104 +40,42 @@ public class LoginWindowController {
 
     @FXML
     void performLogin(ActionEvent event) {
-        // Set up Error Handler
-        Alert alert;
+    	// Retrieve user input
+    	String inputUsername = usernameField.getText();
+    	String inputPassword = String.valueOf(passwordField.getText());
 
-        // Get Data
-        String inputUsername = usernameField.getText();
-        String inputPassword = String.valueOf(passwordField.getText());
-    
-        // Check fields are filled
-        if (inputUsername.equals("") || inputPassword.equals("")) {
-            alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Input Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Please Fill Username and Password Fields");
+    	String errorString = validateInput(inputUsername, inputPassword);
 
-            alert.showAndWait();
-        } else {
-            // Get Account
-            Account acc = manager.getAccount(inputUsername);
+    	if (errorString.isEmpty()) {
+    		// Input is Valid
 
-            // Check if account exists
-            if (acc == null) {
-                alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Login Error");
-                alert.setHeaderText(null);
-                alert.setContentText("This Account does not exist");
+    		// Get Account
+    		Account acc = manager.getAccount(inputUsername);
 
-                alert.showAndWait();
-            } else {
-                // Check if account is already logged in
-                if (manager.getLoggedAccount() == acc) {
-                    alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Login Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("This account is already logged in");
+    		// Login Account
+    		manager.performLogin(acc);
 
-                    alert.showAndWait();
-                } else {
-                    // Check Password
-                    if (!acc.getPassword().equals(inputPassword)) {
-                        alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Login Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Invalid Password Given. Please try Again");
+    		// Create User Window
+    		openWindow("FXML Files/UserWindow.fxml", "User");
 
-                        alert.showAndWait();
-                    } else {
-                        // Perform Login
-                          manager.performLogin(acc);
+    		// Close Current Window
+    		closeWindow(event);
 
-                          // Create User window
-                          createWindow("User");
-
-                          // Close Stage
-                          Node source = (Node) event.getSource();
-                          Stage stage = (Stage) source.getScene().getWindow();
-                          stage.close();
-
-                          // Clear details
-                          usernameField.setText("");
-                          passwordField.setText("");
-                    }
-                }
-            }
-        }       
-    }
-    public void createWindow(String type) {
-        Stage stage = new Stage();
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXML Files/" + type + "Window.fxml"));
-            Scene scene = new Scene(root);
-            stage.setTitle(type);
-            stage.setScene(scene);
-
-            stage.setOnCloseRequest(e -> {
-                Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Exit Program");
-                alert.setHeaderText(null);
-                alert.setContentText("Exit the Program?");
-
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    System.exit(0);
-                } else {
-                    e.consume();
-                }
-            });
-
-            stage.show();
-        } catch (IOException e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
+    		// Clear details
+    		usernameField.setText("");
+    		passwordField.setText("");
+    	} else {
+    		// Input is Invalid
+    		createMessage("Login Error", errorString, AlertType.ERROR);
+    	}
     }
 
     @FXML
     void createProfile(ActionEvent event) {
-        createWindow("Profile");
+    	// Open Profile Window
+    	openWindow("FXML Files/ProfileWindow.fxml", "Create New Profile");
     }
+
     public void initialize() {
         // Read Files
         manager.readFile("accounts");
@@ -167,5 +94,32 @@ public class LoginWindowController {
     
         // Write Test Events
         manager.writeFile("events");
+    }
+
+    private String validateInput(String username, String password) {
+    	// Check if all fields are populated
+    	if (username.isEmpty() || password.isEmpty()) {
+    		return "Please enter every field";
+    	} 
+
+    	// Check if the account exists
+    	Account acc = manager.getAccount(username);
+
+	    if (acc == null) {
+	    	return "This account does not exist";
+	    }
+
+	    // Check if account is already logged in
+	    if (manager.getLoggedAccount() == acc) {
+	    	return "This account is already logged in";
+	    }
+
+	    // Check if the correct password is given
+	    if (!acc.getPassword().equals(password)) {
+	    	return "Invalid Password Given. Please try again.";
+	    }
+
+	    // Regular expression
+	    return "";
     }
 }
