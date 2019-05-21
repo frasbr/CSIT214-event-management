@@ -13,8 +13,6 @@ import javafx.scene.shape.Rectangle;
 import java.time.LocalDate;
 
 public class UserWindowController extends WindowController {
-	EventManager manager;
-
     @FXML
     private Rectangle rectBackground;
 

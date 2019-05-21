@@ -14,13 +14,6 @@ import javafx.scene.control.Alert.AlertType;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import javafx.fxml.LoadException;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 public class ProfileWindowController extends WindowController {
 
     EventManager manager;
@@ -108,8 +101,8 @@ public class ProfileWindowController extends WindowController {
             // Attempt to create a date object
             LocalDate date = LocalDate.of(datePart[2], datePart[1], datePart[0]);
             
-            // Check if its before current date
-            if (!date.isBefore(LocalDate.now())) {
+            // Check if its after current date
+            if (date.isAfter(LocalDate.now())) {
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -121,6 +114,7 @@ public class ProfileWindowController extends WindowController {
             return "That username is already taken";
         }
 
+        // No Error to Return
         return "";
     }
 

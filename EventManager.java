@@ -21,6 +21,9 @@ public class EventManager {
 	// Logged User
 	private static Account loggedAccount = null;
 
+	// Current Event
+	private static Event selectedEvent = null;
+
 	// Perform Login
 	public static void performLogin(Account _acc) {
 		try {
@@ -48,6 +51,16 @@ public class EventManager {
 	// Get Logged Account
 	public static Account getLoggedAccount() {
 		return loggedAccount;
+	}	
+
+	// Select Event
+	public static void selectEvent(Event event) {
+		selectedEvent = event;
+	}
+
+	// Get Selected Event
+	public static Event getSelectedEvent() {
+		return selectedEvent;
 	}
 
 	// Create Admin

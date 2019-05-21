@@ -17,6 +17,9 @@ import java.io.StringWriter;
 import java.io.PrintWriter;
 
 public class WindowController {
+	// Create Event Manager
+	EventManager manager;
+
 	// Create a message
 	public static int createMessage(String _title, String _text, AlertType _type) {
 		// Create Alert Message

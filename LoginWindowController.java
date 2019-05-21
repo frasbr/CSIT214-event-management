@@ -52,11 +52,17 @@ public class LoginWindowController extends WindowController {
     		// Get Account
     		Account acc = manager.getAccount(inputUsername);
 
-    		// Login Account
+            // Login Account
     		manager.performLogin(acc);
 
-    		// Create User Window
-    		openWindow("FXML Files/UserWindow.fxml", "User");
+            // Create Window
+             if (acc instanceof Admin) {
+                // Create Admin Window
+                openWindow("FXML Files/AdminWindow.fxml", "Admin");
+            } else {
+                // Create User Window
+                openWindow("FXML Files/UserWindow.fxml", "User");
+            }
 
     		// Close Current Window
     		closeWindow(event);

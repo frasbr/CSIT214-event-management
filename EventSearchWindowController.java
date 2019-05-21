@@ -91,18 +91,20 @@ public class EventSearchWindowController extends WindowController {
         // Add action listener
         eventsList.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener<String>() {
-                public void changed(ObservableValue<? extends String> ov, 
-                    String old_val, String new_val) {
+                public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                    try {
+                        // Get Event Text From ListView
                         String [] ev = new_val.split(" -");
                         selectedEvent = ev[0];
-                        System.out.println(selectedEvent);
 
+                        // Select Event
                         if (manager.getEvent(selectedEvent) != null) {
-                            System.out.println(manager.getEvent(selectedEvent));
-                        } else {
-                            System.out.println("Event Error");
+                            manager.selectEvent(manager.getEvent(selectedEvent));
                         }
-            }
+                    } catch (NullPointerException e) {
+
+                    }
+                }
         });
     }
 }
