@@ -67,8 +67,8 @@ public class EventSearchWindowController extends WindowController {
     	
     		// Get all events based on search input
     		for (Event ev : manager.getTotalEvents().values()) {
-    			if (ev.toString().contains(searchInput)) {
-    				list.add(ev.getTitle() + " - " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
+    			if (ev.toString().contains(searchInput) && ev.getLaunched() == true) {
+    				list.add("Title: " + ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
     			}
     		}
 
@@ -88,14 +88,21 @@ public class EventSearchWindowController extends WindowController {
     }
 
     public void initialize() {
+        // Display all events
+        for (Event event : manager.getTotalEvents().values()) {
+            if (event.getLaunched() == true) {
+                System.out.println(event);
+            }
+        }
+
         // Add action listener
         eventsList.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener<String>() {
                 public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
                     try {
                         // Get Event Text From ListView
-                        String [] ev = new_val.split(" -");
-                        selectedEvent = ev[0];
+                        String [] ev = new_val.split("\n");
+                        selectedEvent = ev[0].split("Title: ")[1];
 
                         // Select Event
                         if (manager.getEvent(selectedEvent) != null) {

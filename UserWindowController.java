@@ -49,7 +49,7 @@ public class UserWindowController extends WindowController {
     @FXML
     void manageEvents(ActionEvent event) {
     	// Open window to manage events
-    	// openWindow("FXML Files/EventManageWindow.fxml", "Manage Events");
+    	openWindow("FXML Files/EventManageWindow.fxml", "Manage Events");
     }
 
     @FXML

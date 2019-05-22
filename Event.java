@@ -24,7 +24,31 @@ public class Event implements Serializable {
 
 	// Add Session
 	public void addSession(int _day, int _month, int _year, int _hour, int _minute, double _price, int _maxCapacity) {
-		sessions.add(new Session(_day, _month, _year, _hour, _minute, _price, _maxCapacity));
+		// Create new Session
+		Session session = new Session(_day, _month, _year, _hour, _minute, _price, _maxCapacity);
+
+		// Check if session exists
+		boolean exists = false;
+		
+		for (Session sess : sessions) {
+			if (sess.getDate().equals(session.getDate()) && sess.getTime().equals(session.getTime())) {
+				// This session already exists!
+				exists = true;
+			}
+		}
+
+		// If session does not exist, add it
+		if (exists != true) {
+			sessions.add(session);
+			System.out.println(session.getDate() + " " + session.getTime() + " " + session.getCapacity() + " $" + session.getPrice());
+		}
+	} 
+
+	public void addTotalSessions(ArrayList<Session> _sessions) {
+		for (Session sess : _sessions) {
+			sessions.add(sess);
+			System.out.println(sess.getDate() + " " + sess.getTime() + " " + sess.getCapacity() + " $" + sess.getPrice());
+		}
 	}
 
 	// Get Session
@@ -32,14 +56,30 @@ public class Event implements Serializable {
 		return sessions.get(index);
 	}
 
+	// Get Total Sessions
+	public ArrayList<Session> getTotalSessions() {
+		return sessions;
+	}
+
+	// Remove Session
+	public void removeSession(Session _session) {
+		for (Session sess : sessions) {
+			if (sess == _session) {
+				sessions.remove(sess);
+			}
+		}
+	}
+
+	// Set Launched
+
 	// Get Launched
 	public boolean getLaunched() {
 		return launched;
 	}
 
 	// Launch event
-	public void launch() {
-		launched = !launched;
+	public void launch(boolean status) {
+		launched = status;
 	}
 
 

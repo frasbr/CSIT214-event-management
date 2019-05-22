@@ -13,6 +13,8 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import java.util.ArrayList;
+
 public class EventManager {
 	// HashMaps
 	private static HashMap<String, Account> accounts = new HashMap<String, Account>();
@@ -90,14 +92,11 @@ public class EventManager {
     }
 
 	// Create Event
-	public static void createEvent(String _title, String _location, User _host) {
-		if (!events.containsKey(_title)) {
+    public static void createEvent(String _title, String _location, User _host) {
+    	if (!events.containsKey(_title)) {
 			events.put(_title, new Event(_title, _location, _host));
 		}
-	}
-
-	// Add Session
-	
+    }
 
 	// Get User
 	public static Account getAccount(String _username) {
@@ -180,13 +179,20 @@ public class EventManager {
 			// Read Data from file
 			if (_filename.equals("accounts")) {
 				while (inData != null) {
+					// Create New User
 					Account acc = (Account) inData.readObject();
 					addUserToMap(acc);
 				}
 			} else {
 				while (inData != null) {
+					// Create New Event
 					Event event = (Event) inData.readObject();
 					createEvent(event.getTitle(), event.getLocation(), event.getHost());
+
+					// Add Sessions and set launched
+					Event ev = getEvent(event.getTitle());
+					ev.launch(event.getLaunched());
+					ev.addTotalSessions(event.getTotalSessions());
 				}
 			}
 

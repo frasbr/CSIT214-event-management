@@ -99,8 +99,8 @@ public class EventCreateWindowController extends WindowController {
     		EventManager.createEvent(inputTitle, inputLocation, currentUser);
 
     		// Display Message
-    		createMessage("Event Created", "Event was successfully created", AlertType.ERROR);
-    		
+    		createMessage("Event Created", "Event was successfully created", AlertType.INFORMATION);
+        		
     		// Update Events
     		updateEvents();
 
@@ -143,7 +143,11 @@ public class EventCreateWindowController extends WindowController {
 
     			// Add Session
     			newEvent.addSession(dateParts[0], dateParts[1], dateParts[2], timeParts[0], timeParts[1], Double.parseDouble(inputPrice), Integer.parseInt(inputCapacity));
-    		} catch (Exception e) {
+    		
+                // Display Message
+            createMessage("Session Created", "Session was successfully created", AlertType.INFORMATION);
+
+            } catch (Exception e) {
     			createMessage("Error", e.toString(), AlertType.ERROR);
     		}
     		
@@ -277,7 +281,7 @@ public class EventCreateWindowController extends WindowController {
     	}
     }
 
-     public void initialize() {
+    public void initialize() {
      	// Get Current Account
        	currentUser = (User) manager.getLoggedAccount();
 

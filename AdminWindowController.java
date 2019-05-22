@@ -35,17 +35,17 @@ public class AdminWindowController extends WindowController {
 
     @FXML
     void approveEvents(ActionEvent event) {
-
+        openWindow("FXML Files/EventApproveWindow.fxml", "Approve Events");
     }
 
     @FXML
     void viewEvents(ActionEvent event) {
-
+        openWindow("FXML Files/EventViewWindow.fxml", "View Events");
     }
 
     @FXML
     void viewStatistics(ActionEvent event) {
-
+        openWindow("FXML Files/StatisticsViewWindow.fxml", "View Event Statistics");
     }
 
     @FXML

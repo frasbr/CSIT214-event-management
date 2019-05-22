@@ -1,4 +1,5 @@
 import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -6,7 +7,26 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
 
-public class EventCreateWindowController extends WindowController {
+import javafx.scene.control.Alert.AlertType;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+
+
+public class EventManageWindowController extends WindowController {
+
+    String selectedEvent;
+    String selectedSession;
+
+    User currentUser;
+
+    Session session;
+
 
     @FXML
     private TextField locationField;
@@ -18,7 +38,7 @@ public class EventCreateWindowController extends WindowController {
     private Label titleLabel;
 
     @FXML
-    private ListView<?> eventsList;
+    private ListView<String> eventsList;
 
     @FXML
     private TextField titleField;
@@ -57,37 +77,195 @@ public class EventCreateWindowController extends WindowController {
     private Label titleLabel1;
 
     @FXML
-    private ListView<?> sessionsList;
+    private ListView<String> sessionsList;
 
     @FXML
-    private ListView<?> eventsList1;
+    private ListView<String> eventsList1;
 
     @FXML
     private Rectangle rectBackground11;
 
     @FXML
     void editEvent(ActionEvent event) {
-
+        // Get Input
+        String inputTitle = titleField.getText();
+        String inputLocation = locationField.getText();
     }
 
     @FXML
     void deleteEvent(ActionEvent event) {
-
-    }
+        // Get Input
+        String inputTitle = titleField.getText();
+        String inputLocation = locationField.getText();
+    }   
 
     @FXML
     void editSession(ActionEvent event) {
+        // Get Choice
+        int choice = createMessage("Edit Session", "Are you sure you want to perform these edits to this session?", AlertType.CONFIRMATION);
+    
+        if (choice == 1) {
+            // // Delete Session
+            // Event ev = manager.getEvent(selectedEvent);
+            // ev.removeSession(session);
 
+            // // Update Sessions
+            // updateSessions();
+
+            // Display Message
+            createMessage("Edits successful", "Session has been successfully edited", AlertType.INFORMATION);
+            
+            // Set Data
+            dateField.setText("");
+            timeField.setText("");
+            priceField.setText("");
+            capacityField.setText("");
+        }   
     }
 
     @FXML
     void deleteSession(ActionEvent event) {
+        // Get Choice
+        int choice = createMessage("Delete Session", "Are you sure you want to delete this session?", AlertType.CONFIRMATION);
+    
+        if (choice == 1) {
+            // Delete Session
+            // Event ev = manager.getEvent(selectedEvent);
+            // ev.removeSession(session);
 
+            // Update Sessions
+            // updateSessions();
+
+            // Display Message
+            createMessage("Session Deleted", "Session has been successfully deleted", AlertType.INFORMATION);
+            
+            // Set Data
+            dateField.setText("");
+            timeField.setText("");
+            priceField.setText("");
+            capacityField.setText("");
+        }
     }
 
 
     @FXML
     void exitWindow(ActionEvent event) {
+        closeWindow(event);
+    }
+
+    public void updateEvents() {
+        // Create a list of events
+        ArrayList<String> list = new ArrayList<String>();
+        
+        // Get all events based on search input
+         for (Event ev : manager.getTotalEvents().values()) {
+            if (ev.getHost().getFullname().equals(currentUser.getFullname())) {
+                //System.out.println("Adding Event " + ev.getTitle());
+                list.add(ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
+            }
+        }
+
+        // Set the ListView to the data collected
+        ObservableList<String> data = FXCollections.observableArrayList(list);
+        eventsList.setItems(data);
+        eventsList1.setItems(data);
+    }
+
+    public void updateSessions() {
+        // Initalise list
+        ArrayList<String> list = new ArrayList<String>();
+
+        if (manager.getEvent(selectedEvent) != null) {
+            // Add sessions to sessions list
+            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions()) {
+                list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.getCapacity() + "\nPrice: $" + sess.getPrice());
+            }
+            // Set the ListView to the data collected
+            ObservableList<String> data = FXCollections.observableArrayList(list);
+            sessionsList.setItems(data);
+        }
+    }
+
+   public void initialize() {
+        // Get Current Account
+        currentUser = (User) manager.getLoggedAccount();
+
+        // Update Events
+        updateEvents();
+
+        // Add action listener for the manage events list
+        eventsList.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                    try {
+                        // Get Event Text From ListView
+                        String [] ev = new_val.split("\n");
+                        selectedEvent = ev[0];
+
+                        // Select Event
+                        if (manager.getEvent(selectedEvent) != null) {
+                            Event event = manager.getEvent(selectedEvent);
+                            titleField.setText(event.getTitle());
+                            locationField.setText(event.getLocation());
+                        }
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+        });
+
+        // Add action listener for manage sessions - events list
+        eventsList1.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                    try {
+                        // Get Event Text From ListView
+                        String [] ev = new_val.split("\n");
+                        selectedEvent = ev[0];
+
+                        // Select Event and get sessions
+                        updateSessions();
+
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+        });
+
+        // Add action listener for manage sessions - events list
+        sessionsList.getSelectionModel().selectedItemProperty().addListener(
+            new ChangeListener<String>() {
+                public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                    try {
+                        // Get Event Text From ListView
+                        String [] ev = new_val.split("\n");
+                        selectedSession = ev[0].split("Date: ")[1];
+
+                        System.out.println(selectedSession);
+
+                        // Select Event
+                        ArrayList<String> list = new ArrayList<String>();
+
+                        // Select Session
+                        if (manager.getEvent(selectedEvent) != null) {
+
+                            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions()) {
+                                if (selectedSession.equals(sess.getDate())) {
+                                    session = sess;
+                                }
+                            }
+
+                            // Set Data
+                            dateField.setText(session.getDate());
+                            timeField.setText(session.getTime());
+                            priceField.setText(Double.toString(session.getPrice()));
+                            capacityField.setText(Integer.toString(session.getCapacity()));
+                        }
+                    } catch (NullPointerException e) {
+
+                    }
+                }
+        });
 
     }
 }
