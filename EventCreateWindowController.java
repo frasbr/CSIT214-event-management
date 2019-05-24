@@ -21,9 +21,6 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class EventCreateWindowController extends WindowController {
-	// Event Manager
-	EventManager manager;
-
 	// Current User
 	User currentUser;
 
@@ -245,7 +242,7 @@ public class EventCreateWindowController extends WindowController {
     	// Get Events from Current Account
         for (Event event : manager.getTotalEvents().values()) {
             if (event.getHost().getFullname().equals(currentUser.getFullname())) {
-                list.add(event.getTitle() + " - " + event.getLocation() + "\nHost: " + event.getHost().getFullname());
+                list.add("Title: " + event.getTitle() + "\nLocation: " + event.getLocation() + "\nHost: " + event.getHost().getFullname());
             }
         }
 
@@ -293,8 +290,8 @@ public class EventCreateWindowController extends WindowController {
             new ChangeListener<String>() {
                 public void changed(ObservableValue<? extends String> ov, 
                     String old_val, String new_val) {
-                		String [] ev = new_val.split(" -");
-                        selectedEvent = ev[0];
+                		String [] ev = new_val.split("\n");
+                        selectedEvent = ev[0].split("Title: ")[1];
                         System.out.println(selectedEvent);
 
                         if (manager.getEvent(selectedEvent) != null) {

@@ -61,13 +61,16 @@ public class UserWindowController extends WindowController {
     @FXML
     void manageProfile(ActionEvent event) {
     	// Open window to manage profile
-    	// openWindow("FXML Files/ManageProfileWindow.fxml, "Manage Profile");
+    	openWindow("FXML Files/ProfileManageWindow.fxml", "Manage Profile");
     }
 
     @FXML
     void exitWindow(ActionEvent event) {
        	// Close Current Window
     	closeWindow(event);
+
+        // Save Data
+        manager.writeFile("events");
 
     	// Perform Logout
     	manager.performLogout();

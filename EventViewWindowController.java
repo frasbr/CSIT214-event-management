@@ -47,7 +47,7 @@ public class EventViewWindowController extends WindowController {
 
         if (manager.getEvent(selectedEvent) != null) {
             // Add sessions to sessions list
-            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions()) {
+            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions().values()) {
                 list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.getCapacity() + "\nPrice: $" + sess.getPrice());
             }
             // Set the ListView to the data collected

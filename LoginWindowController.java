@@ -79,7 +79,7 @@ public class LoginWindowController extends WindowController {
     @FXML
     void createProfile(ActionEvent event) {
     	// Open Profile Window
-    	openWindow("FXML Files/ProfileWindow.fxml", "Create New Profile");
+    	openWindow("FXML Files/ProfileCreateWindow.fxml", "Create New Profile");
     }
 
     public void initialize() {
@@ -90,13 +90,22 @@ public class LoginWindowController extends WindowController {
         // Create Test Accounts
         manager.createAdmin();
         manager.createUser("mdr041", "password1", "Mitchell de Roo", 17, 4, 1999);
+        manager.createUser("jg786", "abc123", "Joshua Grimshaw", 29, 10, 1996);
+        manager.createUser("am123", "xyz890", "Alice Milton", 10, 8, 1997);
 
         // Write Test Accounts
         manager.writeFile("accounts");
 
         // Create Test Events
-        manager.createEvent("Mitchell's 21st Birthday Party", "University of Wollongong Unibar", (User) manager.getAccount("mdr041"));
+        manager.createEvent("Mitchell's 21st Birthday Party", "Unibar", (User) manager.getAccount("mdr041"));
         manager.createEvent("Computer Science Workshop", "Building 3-G123", (User) manager.getAccount("mdr041"));
+        manager.createEvent("Reputable Gentleman Co. Meeting", "Unibar", (User) manager.getAccount("jg786"));
+        manager.createEvent("School of Biology Presentation", "Building 10-G01", (User) manager.getAccount("am123"));
+
+        // Create Test Sessions
+        manager.getEvent("Computer Science Workshop").addSession(26, 05, 2019, 10, 30, 5.00, 45);
+        manager.getEvent("Computer Science Workshop").addSession(27, 05, 2019, 12, 30, 6.00, 30);
+        manager.getEvent("Reputable Gentleman Co. Meeting").addSession(10, 06, 2019, 18, 00, 0.00, 15);
     
         // Write Test Events
         manager.writeFile("events");

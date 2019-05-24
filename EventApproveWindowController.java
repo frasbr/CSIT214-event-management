@@ -46,7 +46,7 @@ public class EventApproveWindowController extends WindowController {
             try {
                 // Launch Event
                 Event ev = manager.getEvent(selectedEvent);
-                ev.launch(true);
+                ev.launchEvent(true);
 
                 // Update Event
                 updateEvents();
@@ -63,11 +63,31 @@ public class EventApproveWindowController extends WindowController {
     void rejectEvent(ActionEvent event) {
         // Display Approval Message
         int choice = createMessage("Reject Event", "Are you sure you want to reject this event?", AlertType.CONFIRMATION);
+
+        if (choice == 1) {
+            try {
+                // Reject Event
+                Event ev = manager.getEvent(selectedEvent);
+                ev.launchEvent(false);
+
+                // Update Event
+                updateEvents();
+
+                // Display Message
+                createMessage("Event Rejected", "This Event has been rejected for launch", AlertType.INFORMATION);
+            } catch (Exception e) {
+                createMessage("Error", "No Event was Found", AlertType.ERROR);
+            }
+        }
     }
 
     @FXML
     void exitWindow(ActionEvent event) {
+        // Close Window
         closeWindow(event);
+
+        // Save data
+        manager.writeFile("events");
     }
 
     public void updateEvents() {

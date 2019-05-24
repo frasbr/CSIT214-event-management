@@ -25,6 +25,7 @@ public class EventManager {
 
 	// Current Event
 	private static Event selectedEvent = null;
+	private static Session selectedSession = null;
 
 	// Perform Login
 	public static void performLogin(Account _acc) {
@@ -56,13 +57,23 @@ public class EventManager {
 	}	
 
 	// Select Event
-	public static void selectEvent(Event event) {
-		selectedEvent = event;
+	public static void selectEvent(Event _event) {
+		selectedEvent = _event;
 	}
 
 	// Get Selected Event
 	public static Event getSelectedEvent() {
 		return selectedEvent;
+	}
+
+	// Select Sessions
+	public static void selectSession(Session _session) {
+		selectedSession = _session;
+	}
+
+	// Get Selected Event
+	public static Session getSelectedSession() {
+		return selectedSession;
 	}
 
 	// Create Admin
@@ -182,6 +193,8 @@ public class EventManager {
 					// Create New User
 					Account acc = (Account) inData.readObject();
 					addUserToMap(acc);
+
+					System.out.println(acc);
 				}
 			} else {
 				while (inData != null) {
@@ -191,8 +204,13 @@ public class EventManager {
 
 					// Add Sessions and set launched
 					Event ev = getEvent(event.getTitle());
-					ev.launch(event.getLaunched());
+					ev.launchEvent(event.getLaunched());
 					ev.addTotalSessions(event.getTotalSessions());
+
+					System.out.println(ev);
+					for (Session session : ev.getTotalSessions().values()) {
+						System.out.println(" > " + session.getDate() + " " + session.getTime() + " " + session.getPrice() + " " + session.getCapacity());
+					}
 				}
 			}
 

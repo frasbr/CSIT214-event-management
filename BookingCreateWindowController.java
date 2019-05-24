@@ -15,10 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import java.io.IOException;
 
 public class BookingCreateWindowController extends WindowController {
-
-    EventManager manager;
-
+    // Selected Event and Session
     Event currentEvent;
+    Session currentSession;
 
     @FXML
     private TextField codeField;
@@ -57,9 +56,13 @@ public class BookingCreateWindowController extends WindowController {
 
     @FXML
     void updatePrice(KeyEvent event) {
-        int attendees = Integer.parseInt(attendeeField.getText());
-        double price = attendees * currentEvent.getSession(0).getPrice();
-        priceText.setText("$" + price);
+        try {
+            int attendees = Integer.parseInt(attendeeField.getText());
+            double price = attendees * currentSession.getPrice();
+            priceText.setText("$" + price);
+        } catch (NumberFormatException e) {
+
+        }
     }
 
     @FXML
@@ -74,9 +77,19 @@ public class BookingCreateWindowController extends WindowController {
 
         if (errorString.isEmpty()) {
             // Input is all good
+            
+            // Create Booking
+            boolean success = currentSession.makeBooking((User) manager.getLoggedAccount(), Integer.parseInt(inputAttendee));
+            if (success) {
+                // Display Message
+                createMessage("Successful Booking", "You have successfully booked this event", AlertType.INFORMATION);
 
-            // Close the Booking Creation window
-            exitWindow(event);
+                // Close the Booking Creation window
+                exitWindow(event);
+            } else {
+                // Booking has already been made
+                createMessage("Booking already made", "You have already made a booking for this event. Go to 'Manage Profile' to change or remove your booking", AlertType.INFORMATION);
+            }
         } else {
             // Input is invalid
             createMessage("Error", errorString, AlertType.ERROR);
@@ -86,14 +99,16 @@ public class BookingCreateWindowController extends WindowController {
         
     }
     private static String validateInput(String attendees, String code, String requirements) {
-        /*
-         * This method receives the four input strings specific to the signup form and
-         * returns an error message if any of those strings are invalid. If there are no
-         * errors an empty string is returned
-         */
-
+        // Check if attendees is empty
         if (attendees.isEmpty()) {
             return "Please enter the number of attendees required";
+        }
+
+        // Check if attendees is an integer
+        try {
+            int attendeeCount = Integer.parseInt(attendees);
+        } catch(NumberFormatException e) {
+            return "Please enter an integer number of attendees";
         }
 
         // No Error to Return
@@ -102,9 +117,16 @@ public class BookingCreateWindowController extends WindowController {
     public void initialize() {
         // Get Selected Event
         currentEvent = manager.getSelectedEvent();
+        currentSession = manager.getSelectedSession();
 
         // Set Price
         priceText.setText("$0.00");
-        eventInfoField.setText(currentEvent.getTitle() + "\n" + currentEvent.getHost().getFullname());
+        eventInfoField.setText("Title: " + currentEvent.getTitle() + 
+                                "\nLocation: " + currentEvent.getLocation() + 
+                                "\nHost: " + currentEvent.getHost().getFullname() + 
+                                "\nDate: " + currentSession.getDate() + 
+                                "\nTime: " + currentSession.getTime() + 
+                                "\nPrice: $" + currentSession.getPrice() + 
+                                "\nCapacity: " + currentSession.displayCapacity());
     }
 }

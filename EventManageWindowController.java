@@ -27,7 +27,6 @@ public class EventManageWindowController extends WindowController {
 
     Session session;
 
-
     @FXML
     private TextField locationField;
 
@@ -90,6 +89,34 @@ public class EventManageWindowController extends WindowController {
         // Get Input
         String inputTitle = titleField.getText();
         String inputLocation = locationField.getText();
+
+        if (!selectedEvent.equals("")) {
+            // Get Choice
+            int choice = createMessage("Edit Event", "Are you sure you want to perform these edits to this event?", AlertType.CONFIRMATION);
+        
+            if (choice == 1) {
+                // // Delete Session
+                // Event ev = manager.getEvent(selectedEvent);
+                // ev.removeSession(session);
+
+                // // Update Sessions
+                // updateSessions();
+
+                // Display Message
+                createMessage("Edits successful", "Event has been successfully edited", AlertType.INFORMATION);
+
+                // Save Data
+                //manager.writeFile("events");
+                
+                // Set Data
+                dateField.setText("");
+                timeField.setText("");
+                priceField.setText("");
+                capacityField.setText("");
+            }
+        } else {
+            createMessage("No Event Selected", "Please select an event before attempting to perform any edits", AlertType.ERROR);
+        }   
     }
 
     @FXML
@@ -97,29 +124,64 @@ public class EventManageWindowController extends WindowController {
         // Get Input
         String inputTitle = titleField.getText();
         String inputLocation = locationField.getText();
+
+        if (!selectedEvent.equals("")) {
+            // Get Choice
+            int choice = createMessage("Delete Event", "Are you sure you want to delete this event?", AlertType.CONFIRMATION);
+        
+            if (choice == 1) {
+                // // Delete Session
+                // Event ev = manager.getEvent(selectedEvent);
+                // ev.removeSession(session);
+
+                // // Update Sessions
+                // updateSessions();
+
+                // Display Message
+                createMessage("Event Deleted", "Event has been successfully deleted", AlertType.INFORMATION);
+
+                // Save Data
+                //manager.writeFile("events");
+                
+                // Set Data
+                dateField.setText("");
+                timeField.setText("");
+                priceField.setText("");
+                capacityField.setText("");
+            }
+        } else {
+            createMessage("No Event Selected", "Please select an event before attempting to delete it", AlertType.ERROR);
+        }   
     }   
 
     @FXML
     void editSession(ActionEvent event) {
-        // Get Choice
-        int choice = createMessage("Edit Session", "Are you sure you want to perform these edits to this session?", AlertType.CONFIRMATION);
-    
-        if (choice == 1) {
-            // // Delete Session
-            // Event ev = manager.getEvent(selectedEvent);
-            // ev.removeSession(session);
+        if (!selectedEvent.equals("") && !selectedSession.equals("")) {
+            // Get Choice
+            int choice = createMessage("Edit Session", "Are you sure you want to perform these edits to this session?", AlertType.CONFIRMATION);
+        
+            if (choice == 1) {
+                // // Delete Session
+                // Event ev = manager.getEvent(selectedEvent);
+                // ev.removeSession(session);
 
-            // // Update Sessions
-            // updateSessions();
+                // // Update Sessions
+                // updateSessions();
 
-            // Display Message
-            createMessage("Edits successful", "Session has been successfully edited", AlertType.INFORMATION);
-            
-            // Set Data
-            dateField.setText("");
-            timeField.setText("");
-            priceField.setText("");
-            capacityField.setText("");
+                // Display Message
+                createMessage("Edits successful", "Session has been successfully edited", AlertType.INFORMATION);
+
+                // Save Data
+                //manager.writeFile("events");
+                
+                // Set Data
+                dateField.setText("");
+                timeField.setText("");
+                priceField.setText("");
+                capacityField.setText("");
+            }
+        } else {
+            createMessage("No Session Selected", "Please select a session before attempting to perform any edits", AlertType.ERROR);
         }   
     }
 
@@ -138,7 +200,10 @@ public class EventManageWindowController extends WindowController {
 
             // Display Message
             createMessage("Session Deleted", "Session has been successfully deleted", AlertType.INFORMATION);
-            
+                
+            // Save Data
+            manager.writeFile("events");
+
             // Set Data
             dateField.setText("");
             timeField.setText("");
@@ -161,7 +226,7 @@ public class EventManageWindowController extends WindowController {
          for (Event ev : manager.getTotalEvents().values()) {
             if (ev.getHost().getFullname().equals(currentUser.getFullname())) {
                 //System.out.println("Adding Event " + ev.getTitle());
-                list.add(ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
+                list.add("Title: " + ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
             }
         }
 
@@ -177,7 +242,7 @@ public class EventManageWindowController extends WindowController {
 
         if (manager.getEvent(selectedEvent) != null) {
             // Add sessions to sessions list
-            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions()) {
+            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions().values()) {
                 list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.getCapacity() + "\nPrice: $" + sess.getPrice());
             }
             // Set the ListView to the data collected
@@ -200,7 +265,7 @@ public class EventManageWindowController extends WindowController {
                     try {
                         // Get Event Text From ListView
                         String [] ev = new_val.split("\n");
-                        selectedEvent = ev[0];
+                        selectedEvent = ev[0].split("Title: ")[1];
 
                         // Select Event
                         if (manager.getEvent(selectedEvent) != null) {
@@ -221,7 +286,7 @@ public class EventManageWindowController extends WindowController {
                     try {
                         // Get Event Text From ListView
                         String [] ev = new_val.split("\n");
-                        selectedEvent = ev[0];
+                        selectedEvent = ev[0].split("Title: ")[1];
 
                         // Select Event and get sessions
                         updateSessions();
@@ -249,7 +314,7 @@ public class EventManageWindowController extends WindowController {
                         // Select Session
                         if (manager.getEvent(selectedEvent) != null) {
 
-                            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions()) {
+                            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions().values()) {
                                 if (selectedSession.equals(sess.getDate())) {
                                     session = sess;
                                 }

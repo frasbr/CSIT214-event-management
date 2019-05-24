@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProfileWindowController">
+<Pane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProfileCreateWindowController">
    <children>
       <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="18.0" layoutY="17.0" stroke="BLACK" strokeType="INSIDE" width="404.0" />
       <Label fx:id="titleLabel" layoutX="86.0" layoutY="39.0" text="Create Profile" textFill="WHITE">

@@ -21,7 +21,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="attendeeField" layoutX="44.0" layoutY="192.0" onKeyPressed="#updatePrice" prefHeight="30.0" prefWidth="169.0" promptText="Enter No. of Attendees">
+      <TextField fx:id="attendeeField" layoutX="44.0" layoutY="192.0" onKeyReleased="#updatePrice" prefHeight="30.0" prefWidth="169.0" promptText="Enter No. of Attendees">
          <font>
             <Font size="14.0" />
          </font>

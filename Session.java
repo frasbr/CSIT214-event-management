@@ -26,23 +26,39 @@ public class Session implements Serializable {
 	}
 
 	// Getters
-	public double getPrice() 	 	{ return price; 		  }
-	public int getCapacity() 	{ return capacity; 	  	  }
-	public String getTime() 	{ return time.toString(); }
-	public String getDate() 	{ return date.toString(); }
-	public ArrayList<User> getAttendees() { return attendees; }
+	public double getPrice() 	 		{ return price; 		  }
+	public int getCapacity() 			{ return capacity; 	  	  }
+	public String getTime() 			{ return time.toString(); }
+	public String getDate() 			{ return date.toString(); }
+	public String displayCapacity() 	{ return capacity + "/" + maxCapacity; }
 
-	public void makeBooking(User customer, int totalTickets) {
-		if (!attendees.contains(customer)) {
-			attendees.add(customer);
-			//increaseCapacity()
-		} 
+	public boolean makeBooking(User _customer, int _totalTickets) {
+		// Check if attendee exists
+		boolean alreadyBooked = false;
+
+		for (User user : attendees) {
+			if (user.getFullname().equals(_customer.getFullname())) {
+				alreadyBooked = true;
+			}
+		}
+
+		if (!alreadyBooked) {
+			attendees.add(_customer);
+			increaseCapacity(_totalTickets);
+
+			return true;
+		} else {
+			return false;
+		}
 	}
 
-	// private void increaseCapacity(int num) {
-	// 	// Increase capacity
-	// 	if (capacity < maxCapacity) {
-	// 		capacity += num;
-	// 	}
-	// }
+	private void increaseCapacity(int _num) {
+		// Increase capacity
+		if (capacity < maxCapacity) {
+			capacity += _num;
+			//return 0;
+		} else {
+			//return 1;
+		}
+	}
 }

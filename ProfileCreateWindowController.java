@@ -14,7 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public class ProfileWindowController extends WindowController {
+public class ProfileCreateWindowController extends WindowController {
 
     EventManager manager;
 

@@ -53,6 +53,9 @@ public class AdminWindowController extends WindowController {
         // Close Current Window
         closeWindow(event);
 
+        // Save Data
+        manager.writeFile("events");
+
         // Perform Logout
         manager.performLogout();
 
