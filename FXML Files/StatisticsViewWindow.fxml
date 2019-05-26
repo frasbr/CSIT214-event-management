@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="597.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StatisticsViewWindowController">
+  <tabs>
+    <Tab text="User Statistics">
+         <content>
+            <Pane prefHeight="440.0" prefWidth="432.0">
+               <children>
+                  <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="24.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="551.0" />
+                  <Label fx:id="titleLabel" layoutX="104.0" layoutY="31.0" text="View User Statistics" textFill="WHITE">
+                     <font>
+                        <Font name="Times New Roman" size="48.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="userAllRadio" layoutX="58.0" layoutY="85.0" mnemonicParsing="false" text="All Time" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="userStatsToggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="userYearRadio" layoutX="150.0" layoutY="85.0" mnemonicParsing="false" text="Last Year" textFill="WHITE" toggleGroup="$userStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="userMonthRadio" layoutX="249.0" layoutY="85.0" mnemonicParsing="false" text="Last Month" textFill="WHITE" toggleGroup="$userStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="userWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE" toggleGroup="$userStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="userDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$userStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <ChoiceBox fx:id="userStatsChoice" layoutX="192.0" layoutY="120.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Button fx:id="userSearchButton" layoutX="382.0" layoutY="118.0" mnemonicParsing="false" onAction="#getUserStats" prefHeight="26.0" prefWidth="62.0" text="Search">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="userStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
+                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </content>
+    </Tab>
+      <Tab text="Event Statistics">
+         <content>
+            <Pane prefHeight="440.0" prefWidth="432.0">
+               <children>
+                  <Rectangle fx:id="rectBackground1" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="24.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="551.0" />
+                  <Label fx:id="titleLabel1" layoutX="93.0" layoutY="31.0" text="View Event Statistics" textFill="WHITE">
+                     <font>
+                        <Font name="Times New Roman" size="48.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="eventAllRadio" layoutX="58.0" layoutY="85.0" mnemonicParsing="false" text="All Time" textFill="WHITE">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="eventStatsToggle" />
+                     </toggleGroup>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventYearRadio" layoutX="150.0" layoutY="85.0" mnemonicParsing="false" text="Last Year" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventMonthRadio" layoutX="249.0" layoutY="85.0" mnemonicParsing="false" text="Last Month" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <ChoiceBox fx:id="eventStatsChoice" layoutX="192.0" layoutY="120.0" prefHeight="25.0" prefWidth="180.0" />
+                  <Button fx:id="eventSearchButton" layoutX="382.0" layoutY="118.0" mnemonicParsing="false" onAction="#getEventStats" prefHeight="26.0" prefWidth="62.0" text="Search">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="eventStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
+                  <Button fx:id="cancelButton1" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
