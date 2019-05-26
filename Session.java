@@ -29,6 +29,7 @@ public class Session implements Serializable {
 	public int getCapacity() 			{ return maxCapacity; 	  }
 	public String getTime() 			{ return time.toString(); }
 	public String getDate() 			{ return date.toString(); }
+	public LocalDate getTDate()			{ return date; 			  }
 	//public String displayCapacity() 	{ return capacity + "/" + maxCapacity; }
 
 	public ArrayList<User> getAttendees() { return attendees; }

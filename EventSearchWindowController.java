@@ -40,6 +40,8 @@ public class EventSearchWindowController extends WindowController {
     void performBooking(ActionEvent _event) {
     	// Create booking window
         if (manager.getSelectedEvent() != null && manager.getSelectedSession() != null) {
+            closeWindow(_event);
+
             openWindow("FXML Files/BookingCreateWindow.fxml", "Create Booking");
         } else {
             createMessage("Error", "Please select an event and a session before performing a booking", AlertType.ERROR);

@@ -42,6 +42,9 @@ public class EventApproveWindowController extends WindowController {
                     // Update Events
                     updateEvents();
 
+                    // Reset Selected Event
+                    selectedEvent = null;
+
                     // Display Message
                     createMessage("Event Approved", "This Event has been approved for launch", AlertType.INFORMATION);
                 }

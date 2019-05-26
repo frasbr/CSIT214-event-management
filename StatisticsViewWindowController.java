@@ -114,10 +114,6 @@ public class StatisticsViewWindowController extends WindowController {
 
                 // Get Search Option
                 getUserOption(userOption);
-
-                // Display Options
-                System.out.println(searchDate);
-                System.out.println(userOption);
             } else {
                  createMessage("Search Error", "Please select a statistic option", AlertType.ERROR);
             }
@@ -135,10 +131,6 @@ public class StatisticsViewWindowController extends WindowController {
 
                 // Get Search Option
                 getEventOption(eventOption);
-
-                // Display Options
-                System.out.println(searchDate);
-                System.out.println(eventOption);
             } else {
                 createMessage("Search Error", "Please select a statistics option", AlertType.ERROR);
             }
@@ -170,7 +162,7 @@ public class StatisticsViewWindowController extends WindowController {
         if (_option != null) {
             switch(_option) {
                 case "Most Used Location":          mostUsedLocation(true);     break;
-                case "Least Used Location":         mostUsedLocation(false);     break;
+                case "Least Used Location":         mostUsedLocation(false);    break;
                 case "Most Attended Event":         mostAttendedEvent(true);    break;
                 case "Least Attended Event":        mostAttendedEvent(false);   break;
                 case "Event with Most Sessions":    mostSessions(true);         break;

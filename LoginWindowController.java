@@ -77,9 +77,6 @@ public class LoginWindowController extends WindowController {
 
         // Create Test Accounts
         manager.createAdmin();
-        manager.createUser("mdr041", "password1", "Mitchell de Roo", 17, 4, 1999);
-        manager.createUser("jg786", "abc123", "Joshua Grimshaw", 29, 10, 1996);
-        manager.createUser("am123", "xyz890", "Alice Milton", 10, 8, 1997);
 
         // Write Test Accounts
         manager.writeFile("accounts");

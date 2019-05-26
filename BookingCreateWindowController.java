@@ -38,7 +38,11 @@ public class BookingCreateWindowController extends WindowController {
 
     @FXML
     void exitWindow(ActionEvent event) {
+        // Close current window
         closeWindow(event);
+
+        // Open Search Window
+        openWindow("FXML Files/EventSearchWindow.fxml", "Search Events");
     }
 
     @FXML

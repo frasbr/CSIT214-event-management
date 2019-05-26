@@ -126,11 +126,29 @@ public class ProfileManageWindowController extends WindowController {
                     // Get Attendee Count
                     int attendees = Integer.parseInt(inputAttendee);
 
-                    // Update Booking
-                    booking.updateAttendees(attendees);
+                    if (manager.getSelectedSession().getCurCapacity() + attendees > manager.getSelectedSession().getCapacity()) {
+                        createMessage("Booking Error", "The number of attendees entered is larger than the session's capacity", AlertType.INFORMATION);
+                    } else {
+                        int choice = createMessage("Cancel Booking", "Are you sure you want to edit this booking?", AlertType.CONFIRMATION);
 
-                    // Update Bookings
-                    updateBookings();
+                        if (choice == 1) {
+                            // Update Booking
+                            booking.updateAttendees(attendees);
+
+                            // Update Bookings
+                            updateBookings();
+
+                            // Save Data
+                            manager.writeFile("users");
+                            manager.writeFile("events");
+                            
+                            // Clear Text field
+                            attendeesField.setText("");
+
+                            // Display Message
+                            createMessage("Edited Booking", "Successfully edited the booking", AlertType.INFORMATION);
+                        }
+                    }
                 } catch (NumberFormatException e) {
                     createMessage("Input Error", "Attendees must be an integer", AlertType.ERROR);
                 }

@@ -21,9 +21,9 @@ public class Booking implements Serializable {
 	public void updateAttendees(int _attendees) {
 		// Chance capacity
 		if (_attendees < attendees) {
-			session.decreaseCapacity(attendees - _attendees);
+			EventManager.getSelectedSession().decreaseCapacity(attendees - _attendees);
 		} else {
-			session.increaseCapacity(_attendees - attendees);
+			EventManager.getSelectedSession().increaseCapacity(_attendees - attendees);
 		}
 
 		this.attendees = _attendees;
