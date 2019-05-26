@@ -34,24 +34,24 @@ public class AdminWindowController extends WindowController {
     private Button statsButton;
 
     @FXML
-    void approveEvents(ActionEvent event) {
+    void approveEvents(ActionEvent _event) {
         openWindow("FXML Files/EventApproveWindow.fxml", "Approve Events");
     }
 
     @FXML
-    void viewEvents(ActionEvent event) {
+    void viewEvents(ActionEvent _event) {
         openWindow("FXML Files/EventViewWindow.fxml", "View Events");
     }
 
     @FXML
-    void viewStatistics(ActionEvent event) {
+    void viewStatistics(ActionEvent _event) {
         openWindow("FXML Files/StatisticsViewWindow.fxml", "View Event Statistics");
     }
 
     @FXML
-    void exitWindow(ActionEvent event) {
+    void exitWindow(ActionEvent _event) {
         // Close Current Window
-        closeWindow(event);
+        closeWindow(_event);
 
         // Save Data
         manager.writeFile("events");

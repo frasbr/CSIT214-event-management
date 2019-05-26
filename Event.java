@@ -1,33 +1,34 @@
-import java.io.Serializable;
 import java.util.HashMap;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.LocalDate;
 
-public class Event implements Serializable {
-	// Event Details
-	String title;
-	String location;
-	User host;
+import java.io.Serializable;
 
-	// Sessions
-	HashMap<String, Session> sessions = new HashMap<String, Session>();
+public class Event implements Serializable  {
+	// Event info
+	private String title;
+	private String location;
+	private String description;
+	private User host; 
 
-	// Launching
-	boolean isLaunched;
+	private HashMap<String, Session> sessions = new HashMap<String, Session>();
+
+	private boolean isLaunched;
 
 	// Constructor
-	public Event(String _title, String _location, User _host) {
+	public Event(String _title, String _location, String _description, User _host) {
 		this.title = _title;
 		this.location = _location;
+		this.description = _description;
 		this.host = _host;
-
-		this.isLaunched = false;
 	}
+
 	// Getters
-	public String getTitle() 	{ return title; 					}
-	public String getLocation() { return location; 					}
-	public User getHost() 		{ return host;						}
+	public String getTitle() 					{ return title; 					}
+	public String getLocation() 				{ return location; 					}
+	public String getDescription()				{ return description;				}
+	public User getHost() 						{ return host;						}
+	public Session getSession(String _key)	 	{ return sessions.get(_key);		}
 
 	// Add Session
 	public void addSession(int _day, int _month, int _year, int _hour, int _minute, double _price, int _maxCapacity) {
@@ -41,10 +42,13 @@ public class Event implements Serializable {
 		// Check if session exists and add it if it does
 		if (!sessions.containsKey(key)) {
 			sessions.put(key, new Session(_day, _month, _year, _hour, _minute, _price, _maxCapacity));
-			
-			Session session = sessions.get(key);
+		}
+	}
 
-			System.out.println(session.getDate() + " " + session.getTime() + " " + session.getCapacity() + " $" + session.getPrice());
+	// Remove session
+	public void removeSession(String _key) {
+		if (sessions.containsKey(_key)) {
+			sessions.remove(_key);
 		}
 	}
 
@@ -65,34 +69,20 @@ public class Event implements Serializable {
 		}
 	}
 
-	// Get Session
-	public Session getSession(String _key) {
-		Session session = null;
-		if (sessions.containsKey(_key)) {
-			session = sessions.get(_key);
-		}
-
-		return session;
-	}
-
 	// Get Total Sessions
 	public HashMap<String, Session> getTotalSessions() {
 		return sessions;
 	}
 
-	// Remove Session
-	public boolean removeSession(String _key) {
-		if (sessions.containsKey(_key)) {
-			sessions.remove(_key);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	// Get launch status
 	public boolean getLaunched() {
 		return isLaunched;
+	}
+
+	// Edit Event
+	public void editData(String _location, String _description) {
+		this.location = _location;
+		this.description = _description;
 	}
 
 	// Launch event
@@ -102,6 +92,16 @@ public class Event implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format(title + " " + location + " " + host.getFullname());
+		// Set up initial times
+		String results = title + " " + location + " " + host.getFullname();
+
+		// Get Dates and Times
+		for (Session session : sessions.values()) {
+			if (!results.contains(session.getDate() + " " + session.getTime())) {
+				results += " " + session.getDate() + " " + session.getTime();
+			}
+		}
+
+		return String.format(results);
 	}
 }

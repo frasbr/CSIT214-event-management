@@ -18,11 +18,6 @@
                         <Font name="Times New Roman" size="48.0" />
                      </font>
                   </Label>
-                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
                   <RadioButton fx:id="userAllRadio" layoutX="58.0" layoutY="85.0" mnemonicParsing="false" text="All Time" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -41,19 +36,24 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="userDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$userStatsToggle">
+                  <RadioButton fx:id="userWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE" toggleGroup="$userStatsToggle">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </RadioButton>
-                  <ListView fx:id="userStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
-                  <RadioButton fx:id="userWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE" toggleGroup="$userStatsToggle">
+                  <RadioButton fx:id="userDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$userStatsToggle">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </RadioButton>
                   <ChoiceBox fx:id="userStatsChoice" layoutX="192.0" layoutY="120.0" prefHeight="25.0" prefWidth="180.0" />
                   <Button fx:id="userSearchButton" layoutX="382.0" layoutY="118.0" mnemonicParsing="false" onAction="#getUserStats" prefHeight="26.0" prefWidth="62.0" text="Search">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="userStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
+                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -72,26 +72,10 @@
                         <Font name="Times New Roman" size="48.0" />
                      </font>
                   </Label>
-                  <Button fx:id="cancelButton1" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <ListView fx:id="eventStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
-                  <RadioButton fx:id="eventWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
+                  <RadioButton fx:id="eventAllRadio" layoutX="58.0" layoutY="85.0" mnemonicParsing="false" text="All Time" textFill="WHITE">
                      <toggleGroup>
                         <ToggleGroup fx:id="eventStatsToggle" />
                      </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="eventDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$eventStatsToggle">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </RadioButton>
-                  <RadioButton fx:id="eventMonthRadio" layoutX="249.0" layoutY="85.0" mnemonicParsing="false" text="Last Month" textFill="WHITE" toggleGroup="$eventStatsToggle">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -101,13 +85,29 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="eventAllRadio" layoutX="58.0" layoutY="85.0" mnemonicParsing="false" text="All Time" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                  <RadioButton fx:id="eventMonthRadio" layoutX="249.0" layoutY="85.0" mnemonicParsing="false" text="Last Month" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventWeekRadio" layoutX="362.0" layoutY="85.0" mnemonicParsing="false" text="Last Week" textFill="WHITE" toggleGroup="$eventStatsToggle">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="eventDayRadio" layoutX="463.0" layoutY="85.0" mnemonicParsing="false" text="Last Day" textFill="WHITE" toggleGroup="$eventStatsToggle">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </RadioButton>
                   <ChoiceBox fx:id="eventStatsChoice" layoutX="192.0" layoutY="120.0" prefHeight="25.0" prefWidth="180.0" />
                   <Button fx:id="eventSearchButton" layoutX="382.0" layoutY="118.0" mnemonicParsing="false" onAction="#getEventStats" prefHeight="26.0" prefWidth="62.0" text="Search">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <ListView fx:id="eventStatsList" layoutX="79.0" layoutY="157.0" prefHeight="200.0" prefWidth="444.0" />
+                  <Button fx:id="cancelButton1" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
                      <font>
                         <Font size="14.0" />
                      </font>

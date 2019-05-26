@@ -1,9 +1,7 @@
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.shape.Rectangle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,58 +24,32 @@ public class EventApproveWindowController extends WindowController {
     private Button approveEventButton;
 
     @FXML
-    private Button rejectEventButton;
-
-    @FXML
-    private Rectangle rectBackground1;
-
-    @FXML
     private ListView<String> eventsList;
 
     @FXML
-    private Label titleLabel;
-
-    @FXML
     void approveEvent(ActionEvent event) {
-        // Display Approval Message
-        int choice = createMessage("Approve Event", "Are you sure you want to approve this event?", AlertType.CONFIRMATION);
+        // Get Event
+        Event ev = manager.getEvent(selectedEvent);
 
-        if (choice == 1) {
-            try {
-                // Launch Event
-                Event ev = manager.getEvent(selectedEvent);
-                ev.launchEvent(true);
+        if (ev != null) {
+            if (ev.getTotalSessions().size() > 0) {
+                int choice = createMessage("Approve Event", "Are you sure you want to approve this event?", AlertType.CONFIRMATION);
 
-                // Update Event
-                updateEvents();
+                if (choice == 1) {
+                    // Launch Event
+                    ev.launchEvent(true);
 
-                // Display Message
-                createMessage("Event Approved", "This Event has been approved for launch", AlertType.INFORMATION);
-            } catch (Exception e) {
-                createMessage("Error", "No Event was Found", AlertType.ERROR);
+                    // Update Events
+                    updateEvents();
+
+                    // Display Message
+                    createMessage("Event Approved", "This Event has been approved for launch", AlertType.INFORMATION);
+                }
+            } else {
+                createMessage("Event Error", "Events without sessions cannot be launched", AlertType.ERROR);
             }
-        }
-    }
-
-    @FXML
-    void rejectEvent(ActionEvent event) {
-        // Display Approval Message
-        int choice = createMessage("Reject Event", "Are you sure you want to reject this event?", AlertType.CONFIRMATION);
-
-        if (choice == 1) {
-            try {
-                // Reject Event
-                Event ev = manager.getEvent(selectedEvent);
-                ev.launchEvent(false);
-
-                // Update Event
-                updateEvents();
-
-                // Display Message
-                createMessage("Event Rejected", "This Event has been rejected for launch", AlertType.INFORMATION);
-            } catch (Exception e) {
-                createMessage("Error", "No Event was Found", AlertType.ERROR);
-            }
+        } else {
+            createMessage("Event Error", "No event was found", AlertType.ERROR);
         }
     }
 
@@ -95,7 +67,11 @@ public class EventApproveWindowController extends WindowController {
         
         for (Event ev : manager.getTotalEvents().values()) {
             if (ev.getLaunched() == false) {
-                    list.add("Title: " + ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
+                    list.add("Title: " + ev.getTitle() + 
+                            "\nLocation: " + ev.getLocation() + 
+                            "\nDescription: " + ev.getDescription() + 
+                            "\nHost: " + ev.getHost().getFullname() + 
+                            "\nSessions: " + ev.getTotalSessions().size());
             }
         }
 

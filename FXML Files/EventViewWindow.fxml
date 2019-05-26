@@ -9,11 +9,6 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="439.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EventViewWindowController">
    <children>
       <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="18.0" layoutY="16.0" stroke="BLACK" strokeType="INSIDE" width="555.0" />
-      <Button fx:id="cancelButton" layoutX="490.0" layoutY="379.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <Label fx:id="titleLabel" layoutX="174.0" layoutY="28.0" text="View Events" textFill="WHITE">
          <font>
             <Font name="Times New Roman" size="48.0" />
@@ -21,5 +16,10 @@
       </Label>
       <ListView fx:id="eventsList" layoutX="40.0" layoutY="93.0" prefHeight="127.0" prefWidth="515.0" />
       <ListView fx:id="sessionsList" layoutX="38.0" layoutY="233.0" prefHeight="127.0" prefWidth="515.0" />
+      <Button fx:id="cancelButton" layoutX="490.0" layoutY="379.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

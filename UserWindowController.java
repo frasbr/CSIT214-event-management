@@ -1,5 +1,4 @@
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -7,38 +6,31 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.shape.Rectangle;
+
+import javafx.event.ActionEvent;
 // import java.util.Optional;
 
 import java.time.LocalDate;
 
 public class UserWindowController extends WindowController {
-    @FXML
-    private Rectangle rectBackground;
-
-    @FXML
-    private Pane loginPane;
-
-    @FXML
-    private Button exitButton;
-
-    @FXML
-    private Label titleLabel;
-
-    @FXML
-    private Button bookButton;
 
     @FXML
     private Button createButton;
 
     @FXML
-    private TextField dateField;
-
-    @FXML
     private Button manageButton;
 
     @FXML
+    private Button bookButton;
+
+    @FXML
     private Button profileButton;
+
+    @FXML
+    private Button exitButton;
+
+    @FXML
+    private TextField dateField;
 
     @FXML
     void createEvent(ActionEvent event) {

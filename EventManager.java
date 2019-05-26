@@ -13,8 +13,6 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import java.util.ArrayList;
-
 public class EventManager {
 	// HashMaps
 	private static HashMap<String, Account> accounts = new HashMap<String, Account>();
@@ -28,16 +26,20 @@ public class EventManager {
 	private static Session selectedSession = null;
 
 	// Perform Login
-	public static void performLogin(Account _acc) {
-		try {
+	public static int performLogin(Account _acc) {
+		if (_acc != null) {
 			if (loggedAccount != _acc) {
 				System.out.println(getLoggedAccount());
 				loggedAccount = _acc;
 				loggedAccount.login();
 				System.out.println(getLoggedAccount());
+				
+				return 0;
+			} else {
+				return -2;
 			}
-		} catch (NullPointerException e) {
-
+		} else {
+			return -1;
 		}
 	}
 
@@ -103,9 +105,9 @@ public class EventManager {
     }
 
 	// Create Event
-    public static void createEvent(String _title, String _location, User _host) {
+    public static void createEvent(String _title, String _location, String _description, User _host) {
     	if (!events.containsKey(_title)) {
-			events.put(_title, new Event(_title, _location, _host));
+			events.put(_title, new Event(_title, _location, _description, _host));
 		}
     }
 
@@ -137,22 +139,6 @@ public class EventManager {
 		return accounts;
 	}
 
-	// Delete Account
-	public void deleteAccount(String _username) {
-		if (accounts.containsKey(_username)) {
-			accounts.remove(_username);
-		}
-	}
-
-	// Delete Event
-	public void deleteEvent(String _title) {
-		if (events.containsKey(_title)) {
-			events.remove(_title);
-		}
-	}
-
-	// Delete Session
-
 	// Write to File
 	public static void writeFile(String _filename) {
 		try {
@@ -172,12 +158,15 @@ public class EventManager {
 			// Close file once data is recorded
 			if (outData != null) outData.close();
 
-		} catch(IOException e) {
-			System.err.println("Error opening file. Terminating...");
-			System.exit(1);
-		} catch (NoSuchElementException e) {
-			System.err.println("Invalid Data Type Given");
-			System.exit(1);
+		// } catch(IOException e) {
+		// 	System.err.println("Error opening file. Terminating...");
+		// 	System.exit(1);
+		// } catch (NoSuchElementException e) {
+		// 	System.err.println("Invalid Data Type Given");
+		// 	System.exit(1);
+		// }
+		} catch (Exception e) {
+			System.out.println(e.toString());
 		}
 	}
 
@@ -200,7 +189,7 @@ public class EventManager {
 				while (inData != null) {
 					// Create New Event
 					Event event = (Event) inData.readObject();
-					createEvent(event.getTitle(), event.getLocation(), event.getHost());
+					createEvent(event.getTitle(), event.getLocation(), event.getDescription(), event.getHost());
 
 					// Add Sessions and set launched
 					Event ev = getEvent(event.getTitle());

@@ -13,9 +13,6 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
 
-import java.io.StringWriter;
-import java.io.PrintWriter;
-
 public class WindowController {
 	// Create Event Manager
 	EventManager manager;
@@ -78,9 +75,9 @@ public class WindowController {
 	}
 
 	// Close a Window
-	public void closeWindow(ActionEvent event) {
+	public void closeWindow(ActionEvent _event) {
 		// Close Current Stage
-		Node source = (Node) event.getSource();
+		Node source = (Node) _event.getSource();
 		Stage stage = (Stage) source.getScene().getWindow();
 		stage.close();
 	}

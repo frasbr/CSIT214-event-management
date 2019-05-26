@@ -1,64 +1,70 @@
-import java.io.Serializable;
-
-import java.util.ArrayList;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+
+import java.io.Serializable;
 
 public class Session implements Serializable {
-	// Member variables
+	// Session Info
 	private LocalDate date;
 	private LocalTime time;
+	private int maxCapacity;
 	private double price;
-	private int capacity;
-	private int maxCapacity; 
 
-	// Attendees list
+	private int currentCapacity = 0;
+
 	private ArrayList<User> attendees = new ArrayList<User>();
 
 	// Constructor
 	public Session(int _day, int _month, int _year, int _hour, int _minute, double _price, int _maxCapacity) {
 		this.date = LocalDate.of(_year, _month, _day);
 		this.time = LocalTime.of(_hour, _minute);
-		this.capacity = 0;
 		this.price = _price;
 		this.maxCapacity = _maxCapacity;
 	}
 
 	// Getters
 	public double getPrice() 	 		{ return price; 		  }
-	public int getCapacity() 			{ return capacity; 	  	  }
+	public int getCurCapacity()			{ return currentCapacity; }
+	public int getCapacity() 			{ return maxCapacity; 	  }
 	public String getTime() 			{ return time.toString(); }
 	public String getDate() 			{ return date.toString(); }
-	public String displayCapacity() 	{ return capacity + "/" + maxCapacity; }
+	//public String displayCapacity() 	{ return capacity + "/" + maxCapacity; }
 
-	public boolean makeBooking(User _customer, int _totalTickets) {
-		// Check if attendee exists
-		boolean alreadyBooked = false;
+	public ArrayList<User> getAttendees() { return attendees; }
 
-		for (User user : attendees) {
-			if (user.getFullname().equals(_customer.getFullname())) {
-				alreadyBooked = true;
-			}
-		}
+	public void editData(int _day, int _month, int _year, int _hour, int _minute, double _price, int _maxCapacity) {
+		this.date = LocalDate.of(_year, _month, _day);
+		this.time = LocalTime.of(_hour, _minute);
+		this.price = _price;
+		this.maxCapacity = _maxCapacity;
+	}
 
-		if (!alreadyBooked) {
-			attendees.add(_customer);
-			increaseCapacity(_totalTickets);
+	public void makeBooking(Event _event, Session _session, User _user, int _attendees, String _requirements) {
+		// Add attendee
+		attendees.add(_user);
 
-			return true;
-		} else {
-			return false;
+		// Increase capacity
+		increaseCapacity(_attendees);
+
+		// Make booking and add it to User
+		Booking booking = new Booking(_event, _session, _attendees, _requirements);
+		_user.addBooking(booking);
+	}
+
+	public void increaseCapacity(int _count) {
+		if (currentCapacity < maxCapacity) {
+			currentCapacity += _count;
+		} 
+	}
+
+	public void decreaseCapacity(int _count) {
+		if (currentCapacity >= 0) {
+			currentCapacity -= _count;
 		}
 	}
 
-	private void increaseCapacity(int _num) {
-		// Increase capacity
-		if (capacity < maxCapacity) {
-			capacity += _num;
-			//return 0;
-		} else {
-			//return 1;
-		}
+	public String displayCapacity() {
+		return currentCapacity + "/" + maxCapacity;
 	}
 }

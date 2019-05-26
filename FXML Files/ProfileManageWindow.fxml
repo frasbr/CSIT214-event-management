@@ -8,19 +8,24 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="443.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="ProfileManageWindowController">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="443.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProfileManageWindowController">
   <tabs>
     <Tab text="Manage Profile">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="600.0">
                <children>
                   <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="19.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="404.0" />
-                  <Button fx:id="changeProfileButton" layoutX="100.0" layoutY="320.0" mnemonicParsing="false" onAction="#changeProfile" prefHeight="39.0" prefWidth="115.0" text="Change Profile">
+                  <Label fx:id="titleLabel" layoutX="73.0" layoutY="34.0" text="Manage Profile" textFill="WHITE">
+                     <font>
+                        <Font name="Times New Roman" size="48.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="fullnameField" layoutX="99.0" layoutY="104.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter full name">
                      <font>
                         <Font size="14.0" />
                      </font>
-                  </Button>
-                  <TextField fx:id="dateofbirthField" layoutX="99.0" layoutY="264.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Date of Birth">
+                  </TextField>
+                  <TextField fx:id="usernameField" editable="false" layoutX="100.0" layoutY="157.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Username">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -30,27 +35,22 @@
                         <Font size="14.0" />
                      </font>
                   </PasswordField>
-                  <TextField fx:id="usernameField" layoutX="100.0" layoutY="157.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Username">
+                  <TextField fx:id="dateofbirthField" layoutX="99.0" layoutY="264.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter Date of Birth">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="fullnameField" layoutX="99.0" layoutY="104.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter full name">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="cancelButton" layoutX="344.0" layoutY="377.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
+                  <Button fx:id="changeProfileButton" layoutX="100.0" layoutY="320.0" mnemonicParsing="false" onAction="#changeProfile" prefHeight="39.0" prefWidth="115.0" text="Change Profile">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label fx:id="titleLabel" layoutX="73.0" layoutY="34.0" text="Manage Profile" textFill="WHITE">
-                     <font>
-                        <Font name="Times New Roman" size="48.0" />
-                     </font>
-                  </Label>
                   <Button fx:id="deleteProfileButton" layoutX="229.0" layoutY="320.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="39.0" prefWidth="115.0" text="Delete Profile">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="cancelButton" layoutX="344.0" layoutY="377.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -63,7 +63,23 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="486.0" prefWidth="600.0">
                <children>
                   <Rectangle fx:id="rectBackground1" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="19.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="404.0" />
+                  <Label fx:id="titleLabel1" layoutX="46.0" layoutY="33.0" text="Manage Bookings" textFill="WHITE">
+                     <font>
+                        <Font name="Times New Roman" size="48.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="bookingsList" layoutX="62.0" layoutY="97.0" prefHeight="130.0" prefWidth="311.0" />
+                  <TextField fx:id="attendeesField" layoutX="62.0" layoutY="243.0" prefHeight="39.0" prefWidth="309.0" promptText="Enter attendees">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
                   <Button fx:id="editBookingButton" layoutX="62.0" layoutY="310.0" mnemonicParsing="false" onAction="#editBooking" prefHeight="39.0" prefWidth="115.0" text="Edit Booking">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="cancelBookingButton" layoutX="222.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelBooking" prefHeight="39.0" prefWidth="147.0" text="Cancel Booking">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -73,22 +89,6 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Label fx:id="titleLabel1" layoutX="46.0" layoutY="33.0" text="Manage Bookings" textFill="WHITE">
-                     <font>
-                        <Font name="Times New Roman" size="48.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="cancelBookingButton" layoutX="222.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelBooking" prefHeight="39.0" prefWidth="147.0" text="Cancel Booking">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <ListView fx:id="bookingsList" layoutX="62.0" layoutY="97.0" prefHeight="130.0" prefWidth="311.0" />
-                  <TextField fx:id="attendeesField" layoutX="62.0" layoutY="243.0" prefHeight="39.0" prefWidth="309.0" promptText="Enter attendees">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
                </children>
             </AnchorPane>
          </content>

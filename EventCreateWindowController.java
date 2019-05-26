@@ -1,11 +1,9 @@
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.shape.Rectangle;
 
 import javafx.scene.control.Alert.AlertType;
 
@@ -21,66 +19,47 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class EventCreateWindowController extends WindowController {
-	// Current User
-	User currentUser;
-
-	// For Event List
-	ArrayList<String> list = new ArrayList<String>();
-	ObservableList<String> data;
-
-	// Selected Event
-	String selectedEvent;
-
-	@FXML
-    private TextField codeField;
+	// Create Event
+    @FXML
+    private TextField titleField;
 
     @FXML
     private TextField locationField;
 
     @FXML
-    private Rectangle rectBackground;
+    private TextArea descriptionArea;
 
     @FXML
-    private Rectangle rectBackground1;
+    private Button createEventButton;
 
+    // Create Session
     @FXML
-    private Label titleLabel;
-
-    @FXML
-    private ListView<String> eventsList = new ListView<String>();
-
-    @FXML
-    private TextField titleField;
+    private TextField dateField;
 
     @FXML
     private TextField timeField;
 
     @FXML
-    private Button createSessionButton;
+    private TextField priceField;
+
+    @FXML
+    private TextField codeField;
 
     @FXML
     private TextField capacityField;
 
     @FXML
-    private TextField dateField;
+    private Button createSessionButton;
 
+    // Cancel Button
     @FXML
     private Button cancelButton;
 
     @FXML
-    private TextArea descriptionArea;
+    private ListView<String> eventsList = new ListView<String>();
 
     @FXML
-    private TextField priceField;
-
-    @FXML
-    private Label titleLabel1;
-
-    @FXML
-    private Button createEventButton;
-
-    @FXML
-    void createEvent(ActionEvent event) {
+    void createEvent(ActionEvent _event) {
     	// Retrieve User Input
     	String inputTitle = titleField.getText();
         String inputLocation = locationField.getText();
@@ -92,8 +71,10 @@ public class EventCreateWindowController extends WindowController {
     	if (errorString.isEmpty()) {
     		// Input is all good
 
+            User currentUser = (User) manager.getLoggedAccount();
+
     		// Create Event 
-    		EventManager.createEvent(inputTitle, inputLocation, currentUser);
+    		manager.createEvent(inputTitle, inputLocation, inputDesc, currentUser);
 
     		// Display Message
     		createMessage("Event Created", "Event was successfully created", AlertType.INFORMATION);
@@ -105,14 +86,11 @@ public class EventCreateWindowController extends WindowController {
     		titleField.setText("");
             locationField.setText("");
             descriptionArea.setText("");
-    	} else {	
-    		// Input is invalid
-    		createMessage("Error", errorString, AlertType.ERROR);
-    	}
+        }
     }
 
     @FXML
-    void createSession(ActionEvent event) {
+    void createSession(ActionEvent _event) {
     	// Retrieve User Input
     	String inputDate = dateField.getText();
     	String inputTime = timeField.getText();
@@ -120,7 +98,7 @@ public class EventCreateWindowController extends WindowController {
     	String inputPrice = priceField.getText();
 
     	// Validate the Input
-    	String errorString = validateSession(inputDate, inputTime, inputCapacity, inputPrice, selectedEvent);
+    	String errorString = validateSession(inputDate, inputTime, inputCapacity, inputPrice, manager.getSelectedEvent());
 
     	if (errorString.isEmpty()) {
     		// Input is all good
@@ -133,17 +111,15 @@ public class EventCreateWindowController extends WindowController {
 
     		// Get Event
     		try {
-    			// Get Event
-    			Event newEvent = EventManager.getEvent(selectedEvent);
-
-    			if (newEvent == null) System.out.println("Event Does not exist");
-
-    			// Add Session
-    			newEvent.addSession(dateParts[0], dateParts[1], dateParts[2], timeParts[0], timeParts[1], Double.parseDouble(inputPrice), Integer.parseInt(inputCapacity));
+    			if (manager.getSelectedEvent() == null) {
+    				createMessage("Event Error", "No Event was found", AlertType.ERROR);
+    			} else {
+    				// Add Session
+    				manager.getSelectedEvent().addSession(dateParts[0], dateParts[1], dateParts[2], timeParts[0], timeParts[1], Double.parseDouble(inputPrice), Integer.parseInt(inputCapacity));
     		
-                // Display Message
-            createMessage("Session Created", "Session was successfully created", AlertType.INFORMATION);
-
+                	// Display Message
+            		createMessage("Session Created", "Session was successfully created", AlertType.INFORMATION);
+    			}
             } catch (Exception e) {
     			createMessage("Error", e.toString(), AlertType.ERROR);
     		}
@@ -159,41 +135,42 @@ public class EventCreateWindowController extends WindowController {
     	}
     }
 
-     @FXML
-    void exitWindow(ActionEvent event) {
-        closeWindow(event);
+    @FXML
+    void exitWindow(ActionEvent _event) {
+        closeWindow(_event);
     }
 
-    private static String validateEvent(String title, String location, String description) {
+    private static String validateEvent(String _title, String _location, String _description) {
     	// Check if fields are populated
-    	if (title.isEmpty() || location.isEmpty() || description.isEmpty()) {
+    	if (_title.isEmpty() || _location.isEmpty() || _description.isEmpty()) {
     		return "Please enter every field";
     	}
 
     	// Check if event with this title exists
-    	if (EventManager.getEvent(title) != null) {
+        Event event = EventManager.getEvent(_title);
+    	if (event != null) {
     		return "An event with this title already exists";
     	}
 
     	return "";
     }
 
-    public static String validateSession(String date, String time, String capacity, String price, String event) {
+    public static String validateSession(String _date, String _time, String _capacity, String _price, Event _event) {
     	// Check if all fields are populated
-    	if (date.isEmpty() || time.isEmpty() || capacity.isEmpty() || price.isEmpty()) {
+    	if (_date.isEmpty() || _time.isEmpty() || _capacity.isEmpty() || _price.isEmpty()) {
     		return "Please enter every field";
     	}
 
     	// Check if the date is valid
     	try {
             // Parse date string
-            int[] datePart = getDateParts(date);
+            int[] datePart = getDateParts(_date);
 
             // Attempt to create a date object
             LocalDate newDate = LocalDate.of(datePart[2], datePart[1], datePart[0]);
             
             // Check if its before current date
-            if (!newDate.isBefore(LocalDate.now())) {
+            if (!newDate.isAfter(LocalDate.now())) {
                 throw new Exception();
             }
         } catch (Exception e) {
@@ -203,35 +180,31 @@ public class EventCreateWindowController extends WindowController {
         // Check if time is valid
         try {
         	// Parse time string
-        	int[] timePart = getTimeParts(time);
+        	int[] timePart = getTimeParts(_time);
 
         	// Attempt to create a time object
         	LocalTime newTime = LocalTime.of(timePart[1], timePart[0]);
 
-        	// Check if its before current time
-        	if (!newTime.isBefore(LocalTime.now())) {
-        		throw new Exception();
-        	}
         } catch (Exception e) {
         	return "Please enter a valid time (hh:mm)";
         }
 
         // Check if price is a double
         try {
-        	double thisPrice = Double.parseDouble(price);
+        	double thisPrice = Double.parseDouble(_price);
         } catch (Exception e) {
         	return "Price must be a number";
         }
 
         // Check if capacity is an integer
         try {
-        	int thisCapacity = Integer.parseInt(capacity);
+        	int thisCapacity = Integer.parseInt(_capacity);
         } catch (Exception e) {
         	return "Capacity must be an integer";
         }
 
         // Check if an event has been selected
-        if (event.isEmpty()) {
+        if (_event == null) {
     		return "No event has been selected";
     	}
 
@@ -240,23 +213,27 @@ public class EventCreateWindowController extends WindowController {
 
     public void updateEvents() {
     	// Get Events from Current Account
+        ArrayList<String> list = new ArrayList<String>();
+
+        User loggedUser = (User) manager.getLoggedAccount();
+
         for (Event event : manager.getTotalEvents().values()) {
-            if (event.getHost().getFullname().equals(currentUser.getFullname())) {
+            if (event.getHost().getFullname().equals(loggedUser.getFullname())) {
                 list.add("Title: " + event.getTitle() + "\nLocation: " + event.getLocation() + "\nHost: " + event.getHost().getFullname());
             }
         }
 
         // Add data to list
-        data = FXCollections.observableArrayList(list);
-        eventsList.setItems(data);
+        ObservableList<String> data = FXCollections.observableArrayList(list);
+        eventsList.setItems(data);   
     }
 
-    private static int[] getDateParts(String dateString) {
+    private static int[] getDateParts(String _dateString) {
         /*
          * This method takes a string representing a date and returns an integer array
          * of length 3 representing the day, month and year
          */
-        String[] dateParts = dateString.split("/");
+        String[] dateParts = _dateString.split("/");
         try {
             int day = Integer.parseInt(dateParts[0]);
             int month = Integer.parseInt(dateParts[1]);
@@ -267,8 +244,8 @@ public class EventCreateWindowController extends WindowController {
         }
     }
 
-    private static int[] getTimeParts(String timeString) {
-    	String[] timeParts = timeString.split(":");
+    private static int[] getTimeParts(String _timeString) {
+    	String[] timeParts = _timeString.split(":");
     	try {
     		int hour = Integer.parseInt(timeParts[0]);
     		int minute = Integer.parseInt(timeParts[1]);
@@ -279,27 +256,26 @@ public class EventCreateWindowController extends WindowController {
     }
 
     public void initialize() {
-     	// Get Current Account
-       	currentUser = (User) manager.getLoggedAccount();
-
-     	// Update Events List
+    	// Update Events List
         updateEvents();
 
-        // Add action listener
+        // Add action listener for manage eventss event list
         eventsList.getSelectionModel().selectedItemProperty().addListener(
             new ChangeListener<String>() {
-                public void changed(ObservableValue<? extends String> ov, 
-                    String old_val, String new_val) {
-                		String [] ev = new_val.split("\n");
-                        selectedEvent = ev[0].split("Title: ")[1];
-                        System.out.println(selectedEvent);
+                public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                    try {
+                        // Get Event Key From ListView
+                        String[] ev = new_val.split("\nLocation: ");
+                        String key = ev[0].split("Title: ")[1];
 
-                        if (manager.getEvent(selectedEvent) != null) {
-                            System.out.println(manager.getEvent(selectedEvent));
-                        } else {
-                            System.out.println("Event Error");
+                        if (key != null) {
+                            // Select Event
+                            manager.selectEvent(manager.getEvent(key));
                         }
-            }
+                    } catch (NullPointerException e) {
+
+                    }
+                }
         });
     }
 }

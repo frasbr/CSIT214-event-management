@@ -1,15 +1,13 @@
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
-
 import javafx.scene.control.Alert.AlertType;
+
+import javafx.event.ActionEvent;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,29 +15,14 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class EventSearchWindowController extends WindowController {
-    // Event Manager
-	EventManager manager;
-
-    // Selected Event
-    String selectedEvent;
-
     // List
     ArrayList<String> list;
-
-    @FXML
-    private Rectangle rectBackground;
-
-    @FXML
-    private Pane loginPane;
 
     @FXML
     private Button searchButton;
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Label titleLabel;
 
     @FXML
     private ListView<String> sessionsList;
@@ -54,7 +37,7 @@ public class EventSearchWindowController extends WindowController {
     private Button bookingButton;
 
     @FXML
-    void performBooking(ActionEvent event) {
+    void performBooking(ActionEvent _event) {
     	// Create booking window
         if (manager.getSelectedEvent() != null && manager.getSelectedSession() != null) {
             openWindow("FXML Files/BookingCreateWindow.fxml", "Create Booking");
@@ -64,7 +47,7 @@ public class EventSearchWindowController extends WindowController {
     }
 
     @FXML
-    void searchEvents(ActionEvent event) {
+    void searchEvents(ActionEvent _event) {
     	// Get User Input
     	String searchInput = searchField.getText();
 
@@ -87,8 +70,6 @@ public class EventSearchWindowController extends WindowController {
         // Get all events based on search input
         String results;
 
-        System.out.println("Events found: ");
-
         for (Event ev : manager.getTotalEvents().values()) {
             results = ev.toString();
 
@@ -101,7 +82,7 @@ public class EventSearchWindowController extends WindowController {
 
             // Check if results match input
             if (results.contains(input) && ev.getLaunched() == true) {
-                list.add("Title: " + ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nHost: " + ev.getHost().getFullname());
+                list.add("Title: " + ev.getTitle() + "\nLocation: " + ev.getLocation() + "\nDescription: " + ev.getDescription() +"\nHost: " + ev.getHost().getFullname());
             }
         }
 
@@ -114,10 +95,10 @@ public class EventSearchWindowController extends WindowController {
         // Initalise list
         list = new ArrayList<String>();
 
-        if (manager.getEvent(selectedEvent) != null) {
+        if (manager.getSelectedEvent() != null) {
             // Add sessions to sessions list
-            for (Session sess : manager.getEvent(selectedEvent).getTotalSessions().values()) {
-                list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.getCapacity() + "\nPrice: $" + sess.getPrice());
+            for (Session sess : manager.getSelectedEvent().getTotalSessions().values()) {
+                list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.displayCapacity() + "\nPrice: $" + sess.getPrice());
             }
             // Set the ListView to the data collected
             ObservableList<String> data = FXCollections.observableArrayList(list);
@@ -126,9 +107,9 @@ public class EventSearchWindowController extends WindowController {
     }
 
     @FXML
-    void exitProgram(ActionEvent event) {
+    void exitProgram(ActionEvent _event) {
     	// Close Stage
-    	closeWindow(event);
+    	closeWindow(_event);
     }
 
     public void initialize() {
@@ -144,13 +125,13 @@ public class EventSearchWindowController extends WindowController {
             new ChangeListener<String>() {
                 public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
                     try {
-                        // Get Event Text From ListView
-                        String [] ev = new_val.split("\n");
-                        selectedEvent = ev[0].split("Title: ")[1];
+                        // Get Event Key From ListView
+                        String[] ev = new_val.split("\nLocation: ");
+                        String key = ev[0].split("Title: ")[1];
 
-                        // Select Event
-                        if (manager.getEvent(selectedEvent) != null) {
-                            manager.selectEvent(manager.getEvent(selectedEvent));
+                        if (key != null) {
+                            // Select Event
+                            manager.selectEvent(manager.getEvent(key));
 
                             updateSessions();
                         }
@@ -176,10 +157,7 @@ public class EventSearchWindowController extends WindowController {
                             Session session = manager.getSelectedEvent().getSession(key);
 
                             if (session != null) {
-                                System.out.println(session);
                                 manager.selectSession(session);
-                            } else {
-                                System.out.println(key + " does not exist!");
                             }
                         }
                     } catch (NullPointerException e) {

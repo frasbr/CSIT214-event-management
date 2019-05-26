@@ -11,17 +11,27 @@
 <Pane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BookingCreateWindowController">
    <children>
       <Rectangle fx:id="rectBackground" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="18.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="404.0" />
+      <Label fx:id="priceText" layoutX="75.0" layoutY="318.0" text="Price: $" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
       <Label fx:id="titleLabel" layoutX="106.0" layoutY="38.0" text="Book Event" textFill="WHITE">
          <font>
             <Font name="Times New Roman" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="cancelButton" layoutX="343.0" layoutY="380.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
+      <TextArea fx:id="eventInfoField" editable="false" layoutX="42.0" layoutY="103.0" prefHeight="79.0" prefWidth="359.0">
          <font>
             <Font size="14.0" />
          </font>
-      </Button>
+      </TextArea>
       <TextField fx:id="attendeeField" layoutX="44.0" layoutY="192.0" onKeyReleased="#updatePrice" prefHeight="30.0" prefWidth="169.0" promptText="Enter No. of Attendees">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="codeField" layoutX="232.0" layoutY="192.0" prefHeight="30.0" prefWidth="169.0" promptText="Enter Code(s)">
          <font>
             <Font size="14.0" />
          </font>
@@ -31,25 +41,15 @@
             <Font size="14.0" />
          </font>
       </TextArea>
-      <TextField fx:id="codeField" layoutX="232.0" layoutY="192.0" prefHeight="30.0" prefWidth="169.0" promptText="Enter Code(s)">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
       <Button fx:id="confirmButton" layoutX="143.0" layoutY="361.0" mnemonicParsing="false" onAction="#confirmBooking" prefHeight="39.0" prefWidth="156.0" text="Confirm Booking">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Label fx:id="priceText" layoutX="75.0" layoutY="318.0" text="Price: $" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="eventInfoField" editable="false" layoutX="42.0" layoutY="103.0" prefHeight="79.0" prefWidth="359.0">
+      <Button fx:id="cancelButton" layoutX="343.0" layoutY="380.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
          <font>
             <Font size="14.0" />
          </font>
-      </TextArea>
+      </Button>
    </children>
 </Pane>

@@ -1,11 +1,9 @@
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
+
+import javafx.event.ActionEvent;
 
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert;
@@ -16,43 +14,32 @@ import java.util.Optional;
 
 public class ProfileCreateWindowController extends WindowController {
 
-    EventManager manager;
+    @FXML
+    private TextField fullnameField;
 
     @FXML
     private TextField usernameField;
 
     @FXML
+    private PasswordField passwordField;
+
+    @FXML
     private TextField dateofbirthField;
-
-    @FXML
-    private Rectangle rectBackground;
-
-    @FXML
-    private Pane loginPane;
-
-    @FXML
-    private Button cancelButton;
-
-    @FXML
-    private TextField fullnameField;
-
-    @FXML
-    private Label titleLabel;
 
     @FXML
     private Button createButton;
 
     @FXML
-    private PasswordField passwordField;
+    private Button cancelButton;
 
     @FXML
-    void exitWindow(ActionEvent event) {
+    void exitWindow(ActionEvent _event) {
         // Close Window
-        closeWindow(event);
+        closeWindow(_event);
     }
 
     @FXML
-    void createProfile(ActionEvent event) {
+    void createProfile(ActionEvent _event) {
          // Retrieve user input
         String inputUsername = usernameField.getText();
         String inputPassword = String.valueOf(passwordField.getText());
@@ -75,19 +62,13 @@ public class ProfileCreateWindowController extends WindowController {
             createMessage("Account Created", "Account was successfully created", AlertType.CONFIRMATION);
 
             // close the account creation window
-            exitWindow(event);
+            exitWindow(_event);
         } else {
             // Input is invalid
             createMessage("Error", errorString, AlertType.ERROR);
         }
     }
     private static String validateInput(String username, String password, String fullname, String dob) {
-        /*
-         * This method receives the four input strings specific to the signup form and
-         * returns an error message if any of those strings are invalid. If there are no
-         * errors an empty string is returned
-         */
-
         // Check if all fields are populated
         if (username.isEmpty() || password.isEmpty() || fullname.isEmpty() || dob.isEmpty()) {
             return "Please enter every field";
@@ -119,10 +100,6 @@ public class ProfileCreateWindowController extends WindowController {
     }
 
     private static int[] getDateParts(String dateString) {
-        /*
-         * This method takes a string representing a date and returns an integer array
-         * of length 3 representing the day, month and year
-         */
         String[] dateParts = dateString.split("/");
         try {
             int day = Integer.parseInt(dateParts[0]);

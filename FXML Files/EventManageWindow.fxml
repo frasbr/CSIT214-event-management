@@ -13,33 +13,13 @@
             <Pane prefHeight="440.0" prefWidth="432.0">
                <children>
                   <Rectangle fx:id="rectBackground1" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="24.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="551.0" />
-                  <Button fx:id="editEventButton" layoutX="51.0" layoutY="318.0" mnemonicParsing="false" onAction="#editEvent" prefHeight="39.0" prefWidth="115.0" text="Edit Event">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
                   <Label fx:id="titleLabel" layoutX="151.0" layoutY="33.0" text="Manage Events" textFill="WHITE">
                      <font>
                         <Font name="Times New Roman" size="48.0" />
                      </font>
                   </Label>
-                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="deleteEventButton" layoutX="205.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="39.0" prefWidth="115.0" text="Delete Event">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
                   <ListView fx:id="eventsList" layoutX="51.0" layoutY="99.0" prefHeight="200.0" prefWidth="269.0" />
-                  <TextArea fx:id="descriptionArea" layoutX="348.0" layoutY="188.0" prefHeight="111.0" prefWidth="200.0" promptText="Enter Description">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextArea>
-                  <TextField fx:id="titleField" layoutX="348.0" layoutY="99.0" prefHeight="30.0" prefWidth="202.0" promptText="Enter Title">
+                  <TextField fx:id="titleField" editable="false" layoutX="348.0" layoutY="99.0" prefHeight="30.0" prefWidth="202.0" promptText="Enter Title">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -49,6 +29,26 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
+                  <TextArea fx:id="descriptionArea" layoutX="348.0" layoutY="188.0" prefHeight="111.0" prefWidth="200.0" promptText="Enter Description">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextArea>
+                  <Button fx:id="editEventButton" layoutX="51.0" layoutY="318.0" mnemonicParsing="false" onAction="#editEvent" prefHeight="39.0" prefWidth="115.0" text="Edit Event">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteEventButton" layoutX="205.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteEvent" prefHeight="39.0" prefWidth="115.0" text="Delete Event">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </content>
@@ -58,27 +58,13 @@
             <Pane prefHeight="440.0" prefWidth="432.0">
                <children>
                   <Rectangle fx:id="rectBackground11" arcHeight="5.0" arcWidth="5.0" fill="#0b2241" height="407.0" layoutX="24.0" layoutY="18.0" stroke="BLACK" strokeType="INSIDE" width="551.0" />
-                  <Button fx:id="editSessionButton" layoutX="51.0" layoutY="318.0" mnemonicParsing="false" onAction="#editSession" prefHeight="39.0" prefWidth="115.0" text="Edit Session">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
                   <Label fx:id="titleLabel1" layoutX="134.0" layoutY="33.0" text="Manage Sessions" textFill="WHITE">
                      <font>
                         <Font name="Times New Roman" size="48.0" />
                      </font>
                   </Label>
-                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="deleteSessionButton" layoutX="205.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteSession" prefHeight="39.0" prefWidth="115.0" text="Delete Session">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
                   <ListView fx:id="eventsList1" layoutX="51.0" layoutY="99.0" prefHeight="82.0" prefWidth="269.0" />
+                  <ListView fx:id="sessionsList" layoutX="51.0" layoutY="192.0" prefHeight="107.0" prefWidth="269.0" />
                   <TextField fx:id="dateField" layoutX="348.0" layoutY="99.0" prefHeight="30.0" prefWidth="202.0" promptText="Enter Date">
                      <font>
                         <Font size="14.0" />
@@ -89,7 +75,6 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <ListView fx:id="sessionsList" layoutX="51.0" layoutY="192.0" prefHeight="107.0" prefWidth="269.0" />
                   <TextField fx:id="priceField" layoutX="348.0" layoutY="207.0" prefHeight="30.0" prefWidth="202.0" promptText="Enter Price">
                      <font>
                         <Font size="14.0" />
@@ -100,6 +85,21 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
+                  <Button fx:id="editSessionButton" layoutX="51.0" layoutY="318.0" mnemonicParsing="false" onAction="#editSession" prefHeight="39.0" prefWidth="115.0" text="Edit Session">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="deleteSessionButton" layoutX="205.0" layoutY="318.0" mnemonicParsing="false" onAction="#deleteSession" prefHeight="39.0" prefWidth="115.0" text="Delete Session">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="cancelButton" layoutX="491.0" layoutY="376.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Close">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </content>

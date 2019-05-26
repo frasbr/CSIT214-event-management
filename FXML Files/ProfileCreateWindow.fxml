@@ -16,11 +16,6 @@
             <Font name="Times New Roman" size="48.0" />
          </font>
       </Label>
-      <Button fx:id="cancelButton" layoutX="343.0" layoutY="380.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
       <TextField fx:id="fullnameField" layoutX="98.0" layoutY="102.0" prefHeight="39.0" prefWidth="245.0" promptText="Enter full name">
          <font>
             <Font size="14.0" />
@@ -42,6 +37,11 @@
          </font>
       </TextField>
       <Button fx:id="createButton" layoutX="163.0" layoutY="341.0" mnemonicParsing="false" onAction="#createProfile" prefHeight="39.0" prefWidth="115.0" text="Create Profile">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelButton" layoutX="343.0" layoutY="380.0" mnemonicParsing="false" onAction="#exitWindow" prefHeight="26.0" prefWidth="62.0" text="Cancel">
          <font>
             <Font size="14.0" />
          </font>

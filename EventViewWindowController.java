@@ -48,7 +48,10 @@ public class EventViewWindowController extends WindowController {
         if (manager.getEvent(selectedEvent) != null) {
             // Add sessions to sessions list
             for (Session sess : manager.getEvent(selectedEvent).getTotalSessions().values()) {
-                list.add("Date: " + sess.getDate() + "\nTime: " + sess.getTime() + "\nCapacity: " + sess.getCapacity() + "\nPrice: $" + sess.getPrice());
+                list.add("Date: " + sess.getDate() + 
+                    "\nTime: " + sess.getTime() + 
+                    "\nCapacity: " + sess.displayCapacity() + 
+                    "\nPrice: $" + sess.getPrice());
             }
             // Set the ListView to the data collected
             ObservableList<String> data = FXCollections.observableArrayList(list);
@@ -60,7 +63,10 @@ public class EventViewWindowController extends WindowController {
         // Get Events
         for (Event event : manager.getTotalEvents().values()) {
             if (event.getLaunched() == true) {
-                list.add("Title: " + event.getTitle() + "\nLocation: " + event.getLocation() + "\nHost: " + event.getHost().getFullname());
+                list.add("Title: " + event.getTitle() + 
+                    "\nLocation: " + event.getLocation() + 
+                    "\nDescription: " + event.getDescription() + 
+                    "\nHost: " + event.getHost().getFullname());
             }
         }
 
